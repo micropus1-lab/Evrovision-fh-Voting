@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eurovision FH Voting</title>
+
+<style>
+
+* { box-sizing: border-box; }
+
+body {
+
+  margin: 0;
+
+  background: #080808;
+
+  color: white;
+
+  font-family: Arial, sans-serif;
+
+}
+
+header {
+
+  text-align: center;
+
+  padding: 40px 10px;
+
+  background: #151515;
+
+  border-bottom: 1px solid #444;
+
+}
+
+header h1 { letter-spacing: 3px; }
+
+header p { color: #aaa; }
+
+main { max-width: 650px; margin: 30px auto; padding: 15px; }
+
+.card {
+
+  background: #171717;
+
+  border: 1px solid #383838;
+
+  border-radius: 14px;
+
+  padding: 20px;
+
+  margin-bottom: 20px;
+
+}
+
+label { display: block; margin: 15px 0 8px; color: #ccc; }
+
+select, button {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+
+}
+
+select {
+
+  background: #252525;
+
+  color: white;
+
+  border: 1px solid #555;
+
+}
+
+button {
+
+  margin-top: 20px;
+
+  background: #d5ad45;
+
+  color: black;
+
+  border: none;
+
+  font-weight: bold;
+
+}
+
+table { width: 100%; border-collapse: collapse; }
+
+td, th { padding: 12px 5px; border-bottom: 1px solid #383838; text-align: left; }
+
+th { color: #d5ad45; }
+
+.points { text-align: right; color: #d5ad45; font-weight: bold; }
+
+footer { text-align: center; color: #777; padding: 25px; }
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>EUROVISION</h1>
+
+<p>FH VOTING 2026</p>
+
+</header>
+
+<main>
+
+<div class="card">
+
+<h2>Голосование</h2>
+
+<label>Кто выставляет баллы?</label>
+
+<select id="voter"></select>
+
+<label>Кому выставляем баллы?</label>
+
+<select id="country"></select>
+
+<label>Количество баллов</label>
+
+<select id="points">
+
+<option value="1">1 балл</option>
+
+<option value="2">2 балла</option>
+
+<option value="3">3 балла</option>
+
+<option value="4">4 балла</option>
+
+<option value="5">5 баллов</option>
+
+<option value="6">6 баллов</option>
+
+<option value="7">7 баллов</option>
+
+<option value="8">8 баллов</option>
+
+<option value="10">10 баллов</option>
+
+<option value="12">12 баллов</option>
+
+</select>
+
+<button onclick="addVote()">ВЫСТАВИТЬ БАЛЛЫ</button>
+
+</div>
+
+<div class="card">
+
+<h2>Таблица результатов</h2>
+
+<table>
+
+<thead>
+
+<tr><th>Страна</th><th style="text-align:right">Баллы</th></tr>
+
+</thead>
+
+<tbody id="results"></tbody>
+
+</table>
+
+</div>
+
+</main>
+
+<footer>EUROVISION FH VOTING © 2026</footer>
+
+<script>
+
+const countries = [
+
+"Страна 1",
+
+"Страна 2",
+
+"Страна 3",
+
+"Страна 4",
+
+"Страна 5",
+
+"Страна 6",
+
+"Страна 7",
+
+"Страна 8",
+
+"Страна 9",
+
+"Страна 10",
+
+"Страна 11",
+
+"Страна 12",
+
+"Страна 13",
+
+"Страна 14"
+
+];
+
+let scores = {};
+
+countries.forEach(c => scores[c] = 0);
+
+function fillSelects() {
+
+  document.getElementById("voter").innerHTML =
+
+    countries.map(c => `<option>${c}</option>`).join("");
+
+  document.getElementById("country").innerHTML =
+
+    countries.map(c => `<option>${c}</option>`).join("");
+
+}
+
+function addVote() {
+
+  const voter = document.getElementById("voter").value;
+
+  const country = document.getElementById("country").value;
+
+  const points = Number(document.getElementById("points").value);
+
+  if (voter === country) {
+
+    alert("Нельзя голосовать за свою страну!");
+
+    return;
+
+  }
+
+  scores[country] += points;
+
+  renderResults();
+
+}
+
+function renderResults() {
+
+  const sorted = [...countries].sort(
+
+    (a,b) => scores[b] - scores[a]
+
+  );
+
+  document.getElementById("results").innerHTML =
+
+    sorted.map(c => `
+
+      <tr>
+
+        <td>${c}</td>
+
+        <td class="points">${scores[c]}</td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+fillSelects();
+
+renderResults();
+
+</script>
+
+</body>
+
+</html>
