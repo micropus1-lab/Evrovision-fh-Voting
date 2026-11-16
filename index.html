@@ -18,61 +18,137 @@
 
 body {
 
-  margin: 0; padding: 25px 15px;
+  margin: 0;
 
-  background: #090909; color: white;
+  padding: 25px 15px;
+
+  background: #090909;
+
+  color: white;
 
   font-family: Arial, sans-serif;
 
 }
 
-.container { max-width: 650px; margin: auto; text-align: center; }
+.container {
 
-h1 { color: #d8b45b; font-size: 28px; }
+  max-width: 650px;
+
+  margin: auto;
+
+  text-align: center;
+
+}
+
+h1 {
+
+  color: #d8b45b;
+
+  font-size: 28px;
+
+}
 
 .subtitle { color: #aaa; }
 
 .card {
 
-  background: #171717; border: 1px solid #5b4822;
+  background: #171717;
 
-  border-radius: 12px; padding: 18px;
+  border: 1px solid #5b4822;
 
-  margin: 15px 0; text-align: left;
+  border-radius: 12px;
+
+  padding: 18px;
+
+  margin: 15px 0;
+
+  text-align: left;
 
 }
 
-label { display: block; margin-bottom: 9px; }
+label {
+
+  display: block;
+
+  margin-bottom: 9px;
+
+}
 
 select, input {
 
-  width: 100%; padding: 12px; border-radius: 7px;
+  width: 100%;
 
-  background: #252525; color: white;
+  padding: 12px;
 
-  border: 1px solid #8b7139; margin-bottom: 15px;
+  border-radius: 7px;
+
+  background: #252525;
+
+  color: white;
+
+  border: 1px solid #8b7139;
+
+  margin-bottom: 15px;
 
 }
 
 button {
 
-  width: 100%; padding: 13px; margin: 7px 0;
+  width: 100%;
 
-  background: #c5a04b; color: #090909;
+  padding: 13px;
 
-  border: none; border-radius: 7px;
+  margin: 7px 0;
 
-  font-weight: bold; font-size: 16px; cursor: pointer;
+  background: #c5a04b;
+
+  color: #090909;
+
+  border: none;
+
+  border-radius: 7px;
+
+  font-weight: bold;
+
+  font-size: 16px;
+
+  cursor: pointer;
 
 }
 
-.secondary { background: #333; color: white; }
+button:disabled {
 
-#message { color: #d8b45b; margin-top: 18px; }
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+}
+
+.secondary {
+
+  background: #333;
+
+  color: white;
+
+}
+
+#message, #adminMessage {
+
+  color: #d8b45b;
+
+  margin-top: 18px;
+
+}
 
 .hidden { display: none; }
 
-.result { border-bottom: 1px solid #444; padding: 10px 0; }
+.result {
+
+  border-bottom: 1px solid #444;
+
+  padding: 10px 0;
+
+}
 
 </style>
 
@@ -112,11 +188,19 @@ button {
 
       <h2>Вход администратора</h2>
 
-      <input id="adminEmail" type="email" placeholder="Email администратора">
+      <p>Введи свою почту, чтобы получить ссылку для входа.</p>
 
-      <input id="adminPassword" type="password" placeholder="Пароль">
+      <input
 
-      <button id="loginButton">Войти</button>
+        id="adminEmail"
+
+        type="email"
+
+        placeholder="Email администратора"
+
+      >
+
+      <button id="loginButton">Получить ссылку на почту</button>
 
       <p id="adminMessage"></p>
 
@@ -128,9 +212,17 @@ button {
 
     <h2>Админ-панель</h2>
 
-    <button class="secondary" id="refreshButton">Обновить результаты</button>
+    <button class="secondary" id="refreshButton">
 
-    <button class="secondary" id="logoutButton">Выйти</button>
+      Обновить результаты
+
+    </button>
+
+    <button class="secondary" id="logoutButton">
+
+      Выйти
+
+    </button>
 
     <h3>Общий рейтинг</h3>
 
@@ -146,43 +238,67 @@ button {
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { initializeApp } from
+
+"https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 
 import {
 
-  getFirestore, doc, setDoc, getDocs,
+  getFirestore,
 
-  collection, serverTimestamp
+  doc,
 
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+  setDoc,
+
+  getDocs,
+
+  collection,
+
+  serverTimestamp
+
+} from
+
+"https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 import {
 
-  getAuth, signInWithEmailAndPassword,
+  getAuth,
 
-  onAuthStateChanged, signOut
+  sendSignInLinkToEmail,
 
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+  isSignInWithEmailLink,
+
+  signInWithEmailLink,
+
+  onAuthStateChanged,
+
+  signOut
+
+} from
+
+"https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+/* FIREBASE */
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyDGQotVzDyHmOqY9b8K_tWU8F4T1vsQnoc",
+  apiKey: "AIzaSyC8SKJZIDbNuo3nmZK_3bpUbWpCuWEa0Xg",
 
-  authDomain: "eurovision-fh-voting.firebaseapp.com",
+  authDomain: "eurovision-fh-voting-a8f25.firebaseapp.com",
 
-  projectId: "eurovision-fh-voting",
+  projectId: "eurovision-fh-voting-a8f25",
 
-  storageBucket: "eurovision-fh-voting.firebasestorage.app",
+  storageBucket: "eurovision-fh-voting-a8f25.firebasestorage.app",
 
-  messagingSenderId: "28671234305",
+  messagingSenderId: "429725643873",
 
-  appId: "1:28671234305:web:4ec6cbb4e69f11abaf8b00",
+  appId: "1:429725643873:web:5305437fd2d799ccd06620",
 
-  measurementId: "G-KTMLQ85DZQ"
+  measurementId: "G-42HFQK5DH8"
 
 };
 
-const ADMIN_UID = "jblzGfwiuWbIV3Kn8a1FK3dlups1";
+const ADMIN_EMAIL = "micropus1@gmail.com";
 
 const app = initializeApp(firebaseConfig);
 
@@ -190,17 +306,37 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
+/* СТРАНЫ И БАЛЛЫ */
+
 const countries = [
 
-  "🇩🇪 Германия", "🇭🇷 Хорватия", "🇮🇹 Италия",
+  "🇩🇪 Германия",
 
-  "🇦🇱 Албания", "🇲🇹 Мальта", "🇫🇷 Франция",
+  "🇭🇷 Хорватия",
 
-  "🇸🇰 Словакия", "🇷🇺 Россия", "🇧🇾 Беларусь",
+  "🇮🇹 Италия",
 
-  "🇺🇦 Украина", "🇸🇪 Швеция", "🇸🇲 Сан-Марино",
+  "🇦🇱 Албания",
 
-  "🇪🇸 Испания", "🇵🇱 Польша"
+  "🇲🇹 Мальта",
+
+  "🇫🇷 Франция",
+
+  "🇸🇰 Словакия",
+
+  "🇷🇺 Россия",
+
+  "🇧🇾 Беларусь",
+
+  "🇺🇦 Украина",
+
+  "🇸🇪 Швеция",
+
+  "🇸🇲 Сан-Марино",
+
+  "🇪🇸 Испания",
+
+  "🇵🇱 Польша"
 
 ];
 
@@ -210,7 +346,11 @@ const countrySelect = document.getElementById("country");
 
 const votesDiv = document.getElementById("votes");
 
-countries.forEach((c, i) => countrySelect.add(new Option(c, c)));
+countries.forEach(c => {
+
+  countrySelect.add(new Option(c, c));
+
+});
 
 points.forEach(point => {
 
@@ -228,13 +368,19 @@ points.forEach(point => {
 
   select.add(new Option("Выбери страну", ""));
 
-  countries.forEach(c => select.add(new Option(c, c)));
+  countries.forEach(c => {
+
+    select.add(new Option(c, c));
+
+  });
 
   card.append(label, select);
 
   votesDiv.append(card);
 
 });
+
+/* ГОЛОСОВАНИЕ */
 
 let voterId = localStorage.getItem("eurovisionVoterId");
 
@@ -246,7 +392,9 @@ if (!voterId) {
 
 }
 
-document.getElementById("submitButton").addEventListener("click", async () => {
+document.getElementById("submitButton")
+
+.addEventListener("click", async () => {
 
   const message = document.getElementById("message");
 
@@ -282,7 +430,9 @@ document.getElementById("submitButton").addEventListener("click", async () => {
 
   if (new Set(chosen).size !== chosen.length) {
 
-    message.textContent = "Нельзя отдавать несколько баллов одной стране!";
+    message.textContent =
+
+      "Нельзя отдавать несколько баллов одной стране!";
 
     return;
 
@@ -290,7 +440,11 @@ document.getElementById("submitButton").addEventListener("click", async () => {
 
   const scores = {};
 
-  points.forEach((p, i) => scores[String(p)] = chosen[i]);
+  points.forEach((p, i) => {
+
+    scores[String(p)] = chosen[i];
+
+  });
 
   try {
 
@@ -306,13 +460,17 @@ document.getElementById("submitButton").addEventListener("click", async () => {
 
     localStorage.setItem("eurovisionVoted", "true");
 
-    message.textContent = "Голоса приняты! Спасибо за участие.";
+    message.textContent =
+
+      "Голоса приняты! Спасибо за участие.";
 
     document.getElementById("submitButton").disabled = true;
 
   } catch (error) {
 
-    message.textContent = "Не удалось отправить голоса. Возможно, ты уже голосовал.";
+    message.textContent =
+
+      "Не удалось отправить голоса. Попробуй ещё раз.";
 
     console.error(error);
 
@@ -320,53 +478,183 @@ document.getElementById("submitButton").addEventListener("click", async () => {
 
 });
 
-document.getElementById("adminButton").addEventListener("click", () => {
+/* КНОПКА ADMIN */
 
-  document.getElementById("adminSection").classList.toggle("hidden");
+document.getElementById("adminButton")
+
+.addEventListener("click", () => {
+
+  document.getElementById("adminSection")
+
+    .classList.toggle("hidden");
 
 });
 
-document.getElementById("loginButton").addEventListener("click", async () => {
+/* ВХОД ПО ССЫЛКЕ ИЗ ПОЧТЫ */
 
-  const email = document.getElementById("adminEmail").value;
+const actionCodeSettings = {
 
-  const password = document.getElementById("adminPassword").value;
+  url: "https://micropus1-lab.github.io/Evrovision-fh-Voting/",
+
+  handleCodeInApp: true
+
+};
+
+document.getElementById("loginButton")
+
+.addEventListener("click", async () => {
+
+  const email = document.getElementById("adminEmail")
+
+    .value.trim().toLowerCase();
 
   const message = document.getElementById("adminMessage");
 
+  if (!email) {
+
+    message.textContent = "Введи свою электронную почту.";
+
+    return;
+
+  }
+
+  if (email !== ADMIN_EMAIL.toLowerCase()) {
+
+    message.textContent = "Нет доступа к админ-панели.";
+
+    return;
+
+  }
+
   try {
 
-    const result = await signInWithEmailAndPassword(auth, email, password);
+    await sendSignInLinkToEmail(
 
-    if (result.user.uid !== ADMIN_UID) {
+      auth,
 
-      await signOut(auth);
+      email,
 
-      message.textContent = "Нет доступа к админ-панели.";
+      actionCodeSettings
 
-      return;
+    );
 
-    }
+    localStorage.setItem("emailForSignIn", email);
 
-    message.textContent = "Вход выполнен!";
+    message.textContent =
+
+      "Ссылка отправлена! Проверь свою почту.";
 
   } catch (error) {
 
-    message.textContent = "Ошибка входа. Проверь email и пароль.";
+    console.error(error);
+
+    message.textContent =
+
+      "Не удалось отправить письмо. Проверь настройки Firebase.";
 
   }
 
 });
 
+/* ПОДТВЕРЖДЕНИЕ ВХОДА */
+
+async function completeEmailSignIn() {
+
+  if (!isSignInWithEmailLink(auth, window.location.href)) {
+
+    return;
+
+  }
+
+  let email = localStorage.getItem("emailForSignIn");
+
+  if (!email) {
+
+    email = window.prompt(
+
+      "Введи почту, на которую пришла ссылка:"
+
+    );
+
+  }
+
+  if (!email) return;
+
+  try {
+
+    const result = await signInWithEmailLink(
+
+      auth,
+
+      email,
+
+      window.location.href
+
+    );
+
+    localStorage.removeItem("emailForSignIn");
+
+    window.history.replaceState(
+
+      {},
+
+      document.title,
+
+      window.location.pathname
+
+    );
+
+    if (
+
+      !result.user.email ||
+
+      result.user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()
+
+    ) {
+
+      await signOut(auth);
+
+      alert("Нет доступа к админ-панели.");
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Не удалось подтвердить вход. Запроси новую ссылку.");
+
+  }
+
+}
+
+completeEmailSignIn();
+
+/* ПРОВЕРКА АДМИНИСТРАТОРА */
+
 onAuthStateChanged(auth, user => {
 
-  const isAdmin = user && user.uid === ADMIN_UID;
+  const isAdmin =
 
-  document.getElementById("resultsSection").classList.toggle("hidden", !isAdmin);
+    user &&
 
-  if (isAdmin) loadResults();
+    user.email &&
+
+    user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+
+  document.getElementById("resultsSection")
+
+    .classList.toggle("hidden", !isAdmin);
+
+  if (isAdmin) {
+
+    loadResults();
+
+  }
 
 });
+
+/* ЗАГРУЗКА РЕЗУЛЬТАТОВ */
 
 async function loadResults() {
 
@@ -382,7 +670,11 @@ async function loadResults() {
 
     const snapshot = await getDocs(collection(db, "votes"));
 
-    const totals = Object.fromEntries(countries.map(c => [c, 0]));
+    const totals = Object.fromEntries(
+
+      countries.map(c => [c, 0])
+
+    );
 
     details.innerHTML = "";
 
@@ -396,7 +688,9 @@ async function loadResults() {
 
       const heading = document.createElement("strong");
 
-      heading.textContent = "Страна участника: " + vote.voterCountry;
+      heading.textContent =
+
+        "Страна участника: " + vote.voterCountry;
 
       card.append(heading);
 
@@ -404,7 +698,11 @@ async function loadResults() {
 
         const country = vote.scores[String(p)];
 
-        if (totals[country] !== undefined) totals[country] += p;
+        if (totals[country] !== undefined) {
+
+          totals[country] += p;
+
+        }
 
         const line = document.createElement("div");
 
@@ -432,17 +730,25 @@ async function loadResults() {
 
         line.className = "result";
 
-        line.textContent = (index + 1) + ". " + country + " — " + total + " баллов";
+        line.textContent =
+
+          (index + 1) + ". " + country + " — " + total + " баллов";
 
         ranking.append(line);
 
       });
 
-    if (snapshot.empty) details.textContent = "Пока нет голосов.";
+    if (snapshot.empty) {
+
+      details.textContent = "Пока нет голосов.";
+
+    }
 
   } catch (error) {
 
-    ranking.textContent = "Не удалось загрузить результаты.";
+    ranking.textContent =
+
+      "Не удалось загрузить результаты.";
 
     console.error(error);
 
@@ -450,9 +756,15 @@ async function loadResults() {
 
 }
 
-document.getElementById("refreshButton").addEventListener("click", loadResults);
+/* КНОПКИ */
 
-document.getElementById("logoutButton").addEventListener("click", () => signOut(auth));
+document.getElementById("refreshButton")
+
+.addEventListener("click", loadResults);
+
+document.getElementById("logoutButton")
+
+.addEventListener("click", () => signOut(auth));
 
 </script>
 
