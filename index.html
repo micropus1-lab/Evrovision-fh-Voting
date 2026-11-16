@@ -10,7 +10,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>EUROVISION FH VOTING</title>
+<title>Eurovision FH Voting</title>
 
 <style>
 
@@ -20,7 +20,9 @@ body {
 
   margin: 0;
 
-  background: #050505;
+  padding: 25px 15px;
+
+  background: #090909;
 
   color: white;
 
@@ -28,93 +30,59 @@ body {
 
 }
 
-header {
-
-  text-align: center;
-
-  padding: 45px 15px;
-
-  background: linear-gradient(135deg, #202020, #080808);
-
-  border-bottom: 1px solid #444;
-
-}
-
-header h1 {
-
-  font-size: 30px;
-
-  letter-spacing: 4px;
-
-  margin: 0;
-
-}
-
-header p {
-
-  color: #c5a34b;
-
-  letter-spacing: 3px;
-
-}
-
-main {
+.container {
 
   max-width: 650px;
 
-  margin: 30px auto;
+  margin: auto;
 
-  padding: 15px;
+  text-align: center;
 
 }
+
+h1 {
+
+  color: #d8b45b;
+
+  font-size: 30px;
+
+}
+
+.subtitle { color: #aaa; }
 
 .card {
 
-  background: #151515;
+  background: #171717;
 
-  border: 1px solid #383838;
+  border: 1px solid #5b4822;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
-  padding: 22px;
+  padding: 18px;
 
-  margin-bottom: 22px;
+  margin: 15px 0;
 
-}
-
-h2 {
-
-  color: #d5b65d;
-
-  font-size: 21px;
+  text-align: left;
 
 }
 
-label {
-
-  display: block;
-
-  margin: 17px 0 8px;
-
-  color: #ccc;
-
-}
+label { display: block; margin-bottom: 9px; }
 
 select {
 
   width: 100%;
 
-  padding: 14px;
+  padding: 12px;
+
+  border-radius: 7px;
 
   background: #252525;
 
   color: white;
 
-  border: 1px solid #555;
+  border: 1px solid #8b7139;
 
-  border-radius: 8px;
-
-  font-size: 16px;
+  margin-bottom: 15px;
 
 }
 
@@ -122,63 +90,31 @@ button {
 
   width: 100%;
 
-  padding: 15px;
+  padding: 13px;
 
-  margin-top: 22px;
+  background: #c5a04b;
 
-  background: #d5b65d;
-
-  color: black;
+  color: #090909;
 
   border: none;
 
-  border-radius: 8px;
-
-  font-size: 15px;
+  border-radius: 7px;
 
   font-weight: bold;
+
+  font-size: 16px;
 
   cursor: pointer;
 
 }
 
-table {
-
-  width: 100%;
-
-  border-collapse: collapse;
-
-}
-
-td, th {
-
-  padding: 13px 5px;
-
-  border-bottom: 1px solid #383838;
-
-  text-align: left;
-
-}
-
-th { color: #d5b65d; }
-
-.points {
-
-  color: #d5b65d;
-
-  text-align: right;
-
-  font-weight: bold;
-
-}
-
-footer {
+#message {
 
   text-align: center;
 
-  color: #777;
+  margin-top: 18px;
 
-  padding: 25px;
+  color: #d8b45b;
 
 }
 
@@ -188,195 +124,153 @@ footer {
 
 <body>
 
-<header>
+<div class="container">
 
-  <h1>EUROVISION</h1>
+  <h1>EUROVISION FH VOTING</h1>
 
-  <p>FH VOTING 2026</p>
+  <p class="subtitle">Official Voting</p>
 
-</header>
+  <div class="card">
 
-<main>
+    <label for="country">Выбери свою страну:</label>
 
-<div class="card">
+    <select id="country"></select>
 
-  <h2>Голосование</h2>
+  </div>
 
-  <label>Страна, которая голосует</label>
+  <div id="votes"></div>
 
-  <select id="voter"></select>
-
-  <label>Страна, которой выставляются баллы</label>
-
-  <select id="country"></select>
-
-  <label>Количество баллов</label>
-
-  <select id="points">
-
-    <option value="1">1 балл</option>
-
-    <option value="2">2 балла</option>
-
-    <option value="3">3 балла</option>
-
-    <option value="4">4 балла</option>
-
-    <option value="5">5 баллов</option>
-
-    <option value="6">6 баллов</option>
-
-    <option value="7">7 баллов</option>
-
-    <option value="8">8 баллов</option>
-
-    <option value="10">10 баллов</option>
-
-    <option value="12">12 баллов</option>
-
-  </select>
-
-  <button onclick="addVote()">ВЫСТАВИТЬ БАЛЛЫ</button>
+  <button onclick="submitVotes()">Отправить голоса</button>
 
   <p id="message"></p>
 
 </div>
 
-<div class="card">
-
-  <h2>Таблица результатов</h2>
-
-  <table>
-
-    <thead>
-
-      <tr>
-
-        <th>Страна</th>
-
-        <th style="text-align:right">Баллы</th>
-
-      </tr>
-
-    </thead>
-
-    <tbody id="results"></tbody>
-
-  </table>
-
-</div>
-
-</main>
-
-<footer>
-
-  EUROVISION FH VOTING © 2026
-
-</footer>
-
 <script>
 
 const countries = [
 
-  "Germany 🇩🇪",
+  "🇩🇪 Германия",
 
-  "Croatia 🇭🇷",
+  "🇭🇷 Хорватия",
 
-  "Italy 🇮🇹",
+  "🇮🇹 Италия",
 
-  "Albania 🇦🇱",
+  "🇦🇱 Албания",
 
-  "Malta 🇲🇹",
+  "🇲🇹 Мальта",
 
-  "France 🇫🇷",
+  "🇫🇷 Франция",
 
-  "Slovakia 🇸🇰",
+  "🇸🇰 Словакия",
 
-  "Russia 🇷🇺",
+  "🇷🇺 Россия",
 
-  "Belarus 🇧🇾",
+  "🇧🇾 Беларусь",
 
-  "Ukraine 🇺🇦",
+  "🇺🇦 Украина",
 
-  "Sweden 🇸🇪",
+  "🇸🇪 Швеция",
 
-  "San Marino 🇸🇲",
+  "🇸🇲 Сан-Марино",
 
-  "Spain 🇪🇸",
+  "🇪🇸 Испания",
 
-  "Poland 🇵🇱"
+  "🇵🇱 Польша"
 
 ];
 
-let scores = {};
+const points = [1,2,3,4,5,6,7,8,10,12];
 
-countries.forEach(c => scores[c] = 0);
+const countrySelect = document.getElementById("country");
 
-function fillSelects() {
+const votesDiv = document.getElementById("votes");
 
-  document.getElementById("voter").innerHTML =
+countries.forEach((country, i) => {
 
-    countries.map(c => `<option>${c}</option>`).join("");
+  countrySelect.add(new Option(country, i));
 
-  document.getElementById("country").innerHTML =
+});
 
-    countries.map(c => `<option>${c}</option>`).join("");
+function createVoting() {
+
+  votesDiv.innerHTML = "";
+
+  points.forEach(point => {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    const label = document.createElement("label");
+
+    label.textContent = point + " баллов";
+
+    const select = document.createElement("select");
+
+    select.className = "vote";
+
+    select.add(new Option("Выбери страну", ""));
+
+    countries.forEach((country, i) => {
+
+      select.add(new Option(country, i));
+
+    });
+
+    card.append(label, select);
+
+    votesDiv.append(card);
+
+  });
 
 }
 
-function addVote() {
+function submitVotes() {
 
-  const voter = document.getElementById("voter").value;
+  const voter = countrySelect.value;
 
-  const country = document.getElementById("country").value;
+  const selects = [...document.querySelectorAll(".vote")];
 
-  const points = Number(document.getElementById("points").value);
+  const chosen = selects.map(s => s.value);
 
-  const message = document.getElementById("message");
+  if (chosen.some(v => v === "")) {
 
-  if (voter === country) {
+    document.getElementById("message").textContent =
 
-    message.textContent = "Нельзя голосовать за свою страну!";
+      "Заполни все баллы!";
 
     return;
 
   }
 
-  scores[country] += points;
+  if (chosen.includes(voter)) {
 
-  message.textContent = "Баллы успешно выставлены!";
+    document.getElementById("message").textContent =
 
-  renderResults();
+      "Нельзя голосовать за свою страну!";
 
-}
+    return;
 
-function renderResults() {
+  }
 
-  const sorted = [...countries].sort(
+  if (new Set(chosen).size !== chosen.length) {
 
-    (a, b) => scores[b] - scores[a]
+    document.getElementById("message").textContent =
 
-  );
+      "Нельзя отдавать несколько баллов одной стране!";
 
-  document.getElementById("results").innerHTML =
+    return;
 
-    sorted.map(c => `
+  }
 
-      <tr>
+  document.getElementById("message").textContent =
 
-        <td>${c}</td>
-
-        <td class="points">${scores[c]}</td>
-
-      </tr>
-
-    `).join("");
+    "Голоса приняты! Спасибо за участие.";
 
 }
 
-fillSelects();
-
-renderResults();
+createVoting();
 
 </script>
 
