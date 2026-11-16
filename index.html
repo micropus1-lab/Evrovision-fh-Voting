@@ -40,13 +40,7 @@ body {
 
 }
 
-h1 {
-
-  color: #d8b45b;
-
-  font-size: 28px;
-
-}
+h1 { color: #d8b45b; font-size: 28px; }
 
 .subtitle { color: #aaa; }
 
@@ -132,6 +126,14 @@ button:disabled {
 
 }
 
+.danger {
+
+  background: #9b3030;
+
+  color: white;
+
+}
+
 #message, #adminMessage {
 
   color: #d8b45b;
@@ -174,7 +176,7 @@ button:disabled {
 
     <div id="votes"></div>
 
-    <button id="submitButton">Отправить голоса</button>
+    <button id="submitButton" disabled>Загрузка...</button>
 
     <p id="message"></p>
 
@@ -190,15 +192,9 @@ button:disabled {
 
       <p>Введи свою почту, чтобы получить ссылку для входа.</p>
 
-      <input
+      <input id="adminEmail" type="email"
 
-        id="adminEmail"
-
-        type="email"
-
-        placeholder="Email администратора"
-
-      >
+        placeholder="Email администратора">
 
       <button id="loginButton">Получить ссылку на почту</button>
 
@@ -212,9 +208,17 @@ button:disabled {
 
     <h2>Админ-панель</h2>
 
+    <p id="roundInfo"></p>
+
     <button class="secondary" id="refreshButton">
 
       Обновить результаты
+
+    </button>
+
+    <button class="danger" id="resetButton">
+
+      Обнулить голосование
 
     </button>
 
@@ -250,11 +254,15 @@ import {
 
   setDoc,
 
+  getDoc,
+
   getDocs,
 
   collection,
 
-  serverTimestamp
+  serverTimestamp,
+
+  writeBatch
 
 } from
 
@@ -306,6 +314,10 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
+let currentRound = 1;
+
+let roundReady = false;
+
 /* СТРАНЫ И БАЛЛЫ */
 
 const countries = [
@@ -346,6 +358,8 @@ const countrySelect = document.getElementById("country");
 
 const votesDiv = document.getElementById("votes");
 
+const submitButton = document.getElementById("submitButton");
+
 countries.forEach(c => {
 
   countrySelect.add(new Option(c, c));
@@ -380,7 +394,7 @@ points.forEach(point => {
 
 });
 
-/* ГОЛОСОВАНИЕ */
+/* ID УЧАСТНИКА */
 
 let voterId = localStorage.getItem("eurovisionVoterId");
 
@@ -392,25 +406,93 @@ if (!voterId) {
 
 }
 
-document.getElementById("submitButton")
+/* ЗАГРУЗКА НОМЕРА РАУНДА */
 
-.addEventListener("click", async () => {
+async function loadVotingRound() {
+
+  try {
+
+    const setting = await getDoc(doc(db, "settings", "voting"));
+
+    if (setting.exists()) {
+
+      currentRound = setting.data().round || 1;
+
+    } else {
+
+      currentRound = 1;
+
+    }
+
+    roundReady = true;
+
+    submitButton.disabled = false;
+
+    submitButton.textContent = "Отправить голоса";
+
+    if (
+
+      localStorage.getItem("eurovisionVotedRound") ===
+
+      String(currentRound)
+
+    ) {
+
+      submitButton.disabled = true;
+
+      document.getElementById("message").textContent =
+
+        "Ты уже голосовал в этом раунде!";
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById("message").textContent =
+
+      "Не удалось загрузить настройки голосования.";
+
+  }
+
+}
+
+loadVotingRound();
+
+/* ГОЛОСОВАНИЕ */
+
+submitButton.addEventListener("click", async () => {
 
   const message = document.getElementById("message");
+
+  if (!roundReady) {
+
+    message.textContent = "Подожди загрузки голосования.";
+
+    return;
+
+  }
+
+  if (
+
+    localStorage.getItem("eurovisionVotedRound") ===
+
+    String(currentRound)
+
+  ) {
+
+    message.textContent = "Ты уже голосовал в этом раунде!";
+
+    return;
+
+  }
 
   const voterCountry = countrySelect.value;
 
   const selects = [...document.querySelectorAll(".vote")];
 
   const chosen = selects.map(s => s.value);
-
-  if (localStorage.getItem("eurovisionVoted")) {
-
-    message.textContent = "Ты уже голосовал с этого браузера!";
-
-    return;
-
-  }
 
   if (chosen.some(v => !v)) {
 
@@ -446,6 +528,8 @@ document.getElementById("submitButton")
 
   });
 
+  submitButton.disabled = true;
+
   try {
 
     await setDoc(doc(db, "votes", voterId), {
@@ -458,21 +542,27 @@ document.getElementById("submitButton")
 
     });
 
-    localStorage.setItem("eurovisionVoted", "true");
+    localStorage.setItem(
+
+      "eurovisionVotedRound",
+
+      String(currentRound)
+
+    );
 
     message.textContent =
 
       "Голоса приняты! Спасибо за участие.";
 
-    document.getElementById("submitButton").disabled = true;
-
   } catch (error) {
+
+    console.error(error);
 
     message.textContent =
 
       "Не удалось отправить голоса. Попробуй ещё раз.";
 
-    console.error(error);
+    submitButton.disabled = false;
 
   }
 
@@ -490,7 +580,7 @@ document.getElementById("adminButton")
 
 });
 
-/* ВХОД ПО ССЫЛКЕ ИЗ ПОЧТЫ */
+/* ВХОД ПО ССЫЛКЕ */
 
 const actionCodeSettings = {
 
@@ -528,15 +618,7 @@ document.getElementById("loginButton")
 
   try {
 
-    await sendSignInLinkToEmail(
-
-      auth,
-
-      email,
-
-      actionCodeSettings
-
-    );
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
 
     localStorage.setItem("emailForSignIn", email);
 
@@ -632,23 +714,57 @@ completeEmailSignIn();
 
 /* ПРОВЕРКА АДМИНИСТРАТОРА */
 
-onAuthStateChanged(auth, user => {
+function isAdminUser(user) {
 
-  const isAdmin =
-
-    user &&
+  return user &&
 
     user.email &&
 
     user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
 
+}
+
+onAuthStateChanged(auth, async user => {
+
+  const admin = isAdminUser(user);
+
   document.getElementById("resultsSection")
 
-    .classList.toggle("hidden", !isAdmin);
+    .classList.toggle("hidden", !admin);
 
-  if (isAdmin) {
+  if (admin) {
 
-    loadResults();
+    try {
+
+      const settingRef = doc(db, "settings", "voting");
+
+      const setting = await getDoc(settingRef);
+
+      if (!setting.exists()) {
+
+        await setDoc(settingRef, { round: 1 });
+
+        currentRound = 1;
+
+      } else {
+
+        currentRound = setting.data().round || 1;
+
+      }
+
+      roundReady = true;
+
+      await loadResults();
+
+    } catch (error) {
+
+      console.error(error);
+
+      document.getElementById("ranking").textContent =
+
+        "Не удалось загрузить настройки.";
+
+    }
 
   }
 
@@ -738,6 +854,10 @@ async function loadResults() {
 
       });
 
+    document.getElementById("roundInfo").textContent =
+
+      "Текущий раунд: " + currentRound;
+
     if (snapshot.empty) {
 
       details.textContent = "Пока нет голосов.";
@@ -746,9 +866,7 @@ async function loadResults() {
 
   } catch (error) {
 
-    ranking.textContent =
-
-      "Не удалось загрузить результаты.";
+    ranking.textContent = "Не удалось загрузить результаты.";
 
     console.error(error);
 
@@ -756,7 +874,89 @@ async function loadResults() {
 
 }
 
-/* КНОПКИ */
+/* ОБНУЛЕНИЕ ГОЛОСОВАНИЯ */
+
+document.getElementById("resetButton")
+
+.addEventListener("click", async () => {
+
+  if (!isAdminUser(auth.currentUser)) {
+
+    alert("Нет доступа.");
+
+    return;
+
+  }
+
+  const confirmed = confirm(
+
+    "Ты действительно хочешь удалить ВСЕ голоса и начать новый раунд? Это действие нельзя отменить."
+
+  );
+
+  if (!confirmed) return;
+
+  const button = document.getElementById("resetButton");
+
+  button.disabled = true;
+
+  button.textContent = "Удаление...";
+
+  try {
+
+    const snapshot = await getDocs(collection(db, "votes"));
+
+    const documents = snapshot.docs;
+
+    for (let i = 0; i < documents.length; i += 400) {
+
+      const batch = writeBatch(db);
+
+      documents.slice(i, i + 400).forEach(item => {
+
+        batch.delete(item.ref);
+
+      });
+
+      await batch.commit();
+
+    }
+
+    currentRound += 1;
+
+    await setDoc(doc(db, "settings", "voting"), {
+
+      round: currentRound
+
+    });
+
+    document.getElementById("roundInfo").textContent =
+
+      "Текущий раунд: " + currentRound;
+
+    alert("Голосование обнулено! Начался новый раунд.");
+
+    await loadResults();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+
+      "Не удалось полностью обнулить голосование. Проверь подключение и правила Firebase."
+
+    );
+
+  }
+
+  button.disabled = false;
+
+  button.textContent = "Обнулить голосование";
+
+});
+
+/* ОСТАЛЬНЫЕ КНОПКИ */
 
 document.getElementById("refreshButton")
 
