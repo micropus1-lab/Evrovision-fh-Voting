@@ -1,0 +1,17 @@
+
+const countries = [
+  "Germany 🇩🇪",
+  "Croatia 🇭🇷",
+  "Italy 🇮🇹",
+  "Albania 🇦🇱",
+  "Malta 🇲🇹",
+  "France 🇫🇷",
+  "Slovakia 🇸🇰",
+  "Russia 🇷🇺",
+  "Belarus 🇧🇾",
+  "Ukraine 🇺🇦",
+  "Sweden 🇸🇪",
+  "San Marino 🇸🇲",
+  "Spain 🇪🇸",
+  "Poland 🇵🇱"
+];
