@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 
 <html lang="ru">
@@ -10,7 +8,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Eurovision FH Voting</title>
+<title>EUROVISION FH VOTING</title>
 
 <style>
 
@@ -20,7 +18,7 @@ body {
 
   margin: 0;
 
-  background: #080808;
+  background: #050505;
 
   color: white;
 
@@ -32,49 +30,79 @@ header {
 
   text-align: center;
 
-  padding: 40px 10px;
+  padding: 45px 15px;
 
-  background: #151515;
+  background: linear-gradient(135deg, #202020, #080808);
 
   border-bottom: 1px solid #444;
 
 }
 
-header h1 { letter-spacing: 3px; }
+header h1 {
 
-header p { color: #aaa; }
+  font-size: 30px;
 
-main { max-width: 650px; margin: 30px auto; padding: 15px; }
+  letter-spacing: 4px;
+
+  margin: 0;
+
+}
+
+header p {
+
+  color: #c5a34b;
+
+  letter-spacing: 3px;
+
+}
+
+main {
+
+  max-width: 650px;
+
+  margin: 30px auto;
+
+  padding: 15px;
+
+}
 
 .card {
 
-  background: #171717;
+  background: #151515;
 
   border: 1px solid #383838;
 
   border-radius: 14px;
 
-  padding: 20px;
+  padding: 22px;
 
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 
 }
 
-label { display: block; margin: 15px 0 8px; color: #ccc; }
+h2 {
 
-select, button {
+  color: #d5b65d;
 
-  width: 100%;
+  font-size: 21px;
 
-  padding: 14px;
+}
 
-  border-radius: 8px;
+label {
 
-  font-size: 16px;
+  display: block;
+
+  margin: 17px 0 8px;
+
+  color: #ccc;
 
 }
 
 select {
+
+  width: 100%;
+
+  padding: 14px;
 
   background: #252525;
 
@@ -82,31 +110,75 @@ select {
 
   border: 1px solid #555;
 
+  border-radius: 8px;
+
+  font-size: 16px;
+
 }
 
 button {
 
-  margin-top: 20px;
+  width: 100%;
 
-  background: #d5ad45;
+  padding: 15px;
+
+  margin-top: 22px;
+
+  background: #d5b65d;
 
   color: black;
 
   border: none;
 
+  border-radius: 8px;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+}
+
+td, th {
+
+  padding: 13px 5px;
+
+  border-bottom: 1px solid #383838;
+
+  text-align: left;
+
+}
+
+th { color: #d5b65d; }
+
+.points {
+
+  color: #d5b65d;
+
+  text-align: right;
+
   font-weight: bold;
 
 }
 
-table { width: 100%; border-collapse: collapse; }
+footer {
 
-td, th { padding: 12px 5px; border-bottom: 1px solid #383838; text-align: left; }
+  text-align: center;
 
-th { color: #d5ad45; }
+  color: #777;
 
-.points { text-align: right; color: #d5ad45; font-weight: bold; }
+  padding: 25px;
 
-footer { text-align: center; color: #777; padding: 25px; }
+}
 
 </style>
 
@@ -116,9 +188,9 @@ footer { text-align: center; color: #777; padding: 25px; }
 
 <header>
 
-<h1>EUROVISION</h1>
+  <h1>EUROVISION</h1>
 
-<p>FH VOTING 2026</p>
+  <p>FH VOTING 2026</p>
 
 </header>
 
@@ -126,99 +198,111 @@ footer { text-align: center; color: #777; padding: 25px; }
 
 <div class="card">
 
-<h2>Голосование</h2>
+  <h2>Голосование</h2>
 
-<label>Кто выставляет баллы?</label>
+  <label>Страна, которая голосует</label>
 
-<select id="voter"></select>
+  <select id="voter"></select>
 
-<label>Кому выставляем баллы?</label>
+  <label>Страна, которой выставляются баллы</label>
 
-<select id="country"></select>
+  <select id="country"></select>
 
-<label>Количество баллов</label>
+  <label>Количество баллов</label>
 
-<select id="points">
+  <select id="points">
 
-<option value="1">1 балл</option>
+    <option value="1">1 балл</option>
 
-<option value="2">2 балла</option>
+    <option value="2">2 балла</option>
 
-<option value="3">3 балла</option>
+    <option value="3">3 балла</option>
 
-<option value="4">4 балла</option>
+    <option value="4">4 балла</option>
 
-<option value="5">5 баллов</option>
+    <option value="5">5 баллов</option>
 
-<option value="6">6 баллов</option>
+    <option value="6">6 баллов</option>
 
-<option value="7">7 баллов</option>
+    <option value="7">7 баллов</option>
 
-<option value="8">8 баллов</option>
+    <option value="8">8 баллов</option>
 
-<option value="10">10 баллов</option>
+    <option value="10">10 баллов</option>
 
-<option value="12">12 баллов</option>
+    <option value="12">12 баллов</option>
 
-</select>
+  </select>
 
-<button onclick="addVote()">ВЫСТАВИТЬ БАЛЛЫ</button>
+  <button onclick="addVote()">ВЫСТАВИТЬ БАЛЛЫ</button>
+
+  <p id="message"></p>
 
 </div>
 
 <div class="card">
 
-<h2>Таблица результатов</h2>
+  <h2>Таблица результатов</h2>
 
-<table>
+  <table>
 
-<thead>
+    <thead>
 
-<tr><th>Страна</th><th style="text-align:right">Баллы</th></tr>
+      <tr>
 
-</thead>
+        <th>Страна</th>
 
-<tbody id="results"></tbody>
+        <th style="text-align:right">Баллы</th>
 
-</table>
+      </tr>
+
+    </thead>
+
+    <tbody id="results"></tbody>
+
+  </table>
 
 </div>
 
 </main>
 
-<footer>EUROVISION FH VOTING © 2026</footer>
+<footer>
+
+  EUROVISION FH VOTING © 2026
+
+</footer>
 
 <script>
 
 const countries = [
 
-"Страна 1",
+  "Germany 🇩🇪",
 
-"Страна 2",
+  "Croatia 🇭🇷",
 
-"Страна 3",
+  "Italy 🇮🇹",
 
-"Страна 4",
+  "Albania 🇦🇱",
 
-"Страна 5",
+  "Malta 🇲🇹",
 
-"Страна 6",
+  "France 🇫🇷",
 
-"Страна 7",
+  "Slovakia 🇸🇰",
 
-"Страна 8",
+  "Russia 🇷🇺",
 
-"Страна 9",
+  "Belarus 🇧🇾",
 
-"Страна 10",
+  "Ukraine 🇺🇦",
 
-"Страна 11",
+  "Sweden 🇸🇪",
 
-"Страна 12",
+  "San Marino 🇸🇲",
 
-"Страна 13",
+  "Spain 🇪🇸",
 
-"Страна 14"
+  "Poland 🇵🇱"
 
 ];
 
@@ -246,15 +330,19 @@ function addVote() {
 
   const points = Number(document.getElementById("points").value);
 
+  const message = document.getElementById("message");
+
   if (voter === country) {
 
-    alert("Нельзя голосовать за свою страну!");
+    message.textContent = "Нельзя голосовать за свою страну!";
 
     return;
 
   }
 
   scores[country] += points;
+
+  message.textContent = "Баллы успешно выставлены!";
 
   renderResults();
 
@@ -264,7 +352,7 @@ function renderResults() {
 
   const sorted = [...countries].sort(
 
-    (a,b) => scores[b] - scores[a]
+    (a, b) => scores[b] - scores[a]
 
   );
 
