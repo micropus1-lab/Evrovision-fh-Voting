@@ -18,105 +18,61 @@
 
 body {
 
-  margin: 0;
+  margin: 0; padding: 25px 15px;
 
-  padding: 25px 15px;
-
-  background: #090909;
-
-  color: white;
+  background: #090909; color: white;
 
   font-family: Arial, sans-serif;
 
 }
 
-.container {
+.container { max-width: 650px; margin: auto; text-align: center; }
 
-  max-width: 650px;
-
-  margin: auto;
-
-  text-align: center;
-
-}
-
-h1 {
-
-  color: #d8b45b;
-
-  font-size: 30px;
-
-}
+h1 { color: #d8b45b; font-size: 28px; }
 
 .subtitle { color: #aaa; }
 
 .card {
 
-  background: #171717;
+  background: #171717; border: 1px solid #5b4822;
 
-  border: 1px solid #5b4822;
+  border-radius: 12px; padding: 18px;
 
-  border-radius: 12px;
-
-  padding: 18px;
-
-  margin: 15px 0;
-
-  text-align: left;
+  margin: 15px 0; text-align: left;
 
 }
 
 label { display: block; margin-bottom: 9px; }
 
-select {
+select, input {
 
-  width: 100%;
+  width: 100%; padding: 12px; border-radius: 7px;
 
-  padding: 12px;
+  background: #252525; color: white;
 
-  border-radius: 7px;
-
-  background: #252525;
-
-  color: white;
-
-  border: 1px solid #8b7139;
-
-  margin-bottom: 15px;
+  border: 1px solid #8b7139; margin-bottom: 15px;
 
 }
 
 button {
 
-  width: 100%;
+  width: 100%; padding: 13px; margin: 7px 0;
 
-  padding: 13px;
+  background: #c5a04b; color: #090909;
 
-  background: #c5a04b;
+  border: none; border-radius: 7px;
 
-  color: #090909;
-
-  border: none;
-
-  border-radius: 7px;
-
-  font-weight: bold;
-
-  font-size: 16px;
-
-  cursor: pointer;
+  font-weight: bold; font-size: 16px; cursor: pointer;
 
 }
 
-#message {
+.secondary { background: #333; color: white; }
 
-  text-align: center;
+#message { color: #d8b45b; margin-top: 18px; }
 
-  margin-top: 18px;
+.hidden { display: none; }
 
-  color: #d8b45b;
-
-}
+.result { border-bottom: 1px solid #444; padding: 10px 0; }
 
 </style>
 
@@ -130,53 +86,121 @@ button {
 
   <p class="subtitle">Official Voting</p>
 
-  <div class="card">
+  <section id="votingSection">
 
-    <label for="country">Выбери свою страну:</label>
+    <div class="card">
 
-    <select id="country"></select>
+      <label for="country">Выбери свою страну:</label>
 
-  </div>
+      <select id="country"></select>
 
-  <div id="votes"></div>
+    </div>
 
-  <button onclick="submitVotes()">Отправить голоса</button>
+    <div id="votes"></div>
 
-  <p id="message"></p>
+    <button id="submitButton">Отправить голоса</button>
+
+    <p id="message"></p>
+
+  </section>
+
+  <button class="secondary" id="adminButton">Admin</button>
+
+  <section id="adminSection" class="hidden">
+
+    <div class="card">
+
+      <h2>Вход администратора</h2>
+
+      <input id="adminEmail" type="email" placeholder="Email администратора">
+
+      <input id="adminPassword" type="password" placeholder="Пароль">
+
+      <button id="loginButton">Войти</button>
+
+      <p id="adminMessage"></p>
+
+    </div>
+
+  </section>
+
+  <section id="resultsSection" class="hidden">
+
+    <h2>Админ-панель</h2>
+
+    <button class="secondary" id="refreshButton">Обновить результаты</button>
+
+    <button class="secondary" id="logoutButton">Выйти</button>
+
+    <h3>Общий рейтинг</h3>
+
+    <div id="ranking"></div>
+
+    <h3>Голоса участников</h3>
+
+    <div id="details"></div>
+
+  </section>
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+
+import {
+
+  getFirestore, doc, setDoc, getDocs,
+
+  collection, serverTimestamp
+
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+import {
+
+  getAuth, signInWithEmailAndPassword,
+
+  onAuthStateChanged, signOut
+
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyDGQotVzDyHmOqY9b8K_tWU8F4T1vsQnoc",
+
+  authDomain: "eurovision-fh-voting.firebaseapp.com",
+
+  projectId: "eurovision-fh-voting",
+
+  storageBucket: "eurovision-fh-voting.firebasestorage.app",
+
+  messagingSenderId: "28671234305",
+
+  appId: "1:28671234305:web:4ec6cbb4e69f11abaf8b00",
+
+  measurementId: "G-KTMLQ85DZQ"
+
+};
+
+const ADMIN_UID = "jblzGfwiuWbIV3Kn8a1FK3dlups1";
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const auth = getAuth(app);
 
 const countries = [
 
-  "🇩🇪 Германия",
+  "🇩🇪 Германия", "🇭🇷 Хорватия", "🇮🇹 Италия",
 
-  "🇭🇷 Хорватия",
+  "🇦🇱 Албания", "🇲🇹 Мальта", "🇫🇷 Франция",
 
-  "🇮🇹 Италия",
+  "🇸🇰 Словакия", "🇷🇺 Россия", "🇧🇾 Беларусь",
 
-  "🇦🇱 Албания",
+  "🇺🇦 Украина", "🇸🇪 Швеция", "🇸🇲 Сан-Марино",
 
-  "🇲🇹 Мальта",
-
-  "🇫🇷 Франция",
-
-  "🇸🇰 Словакия",
-
-  "🇷🇺 Россия",
-
-  "🇧🇾 Беларусь",
-
-  "🇺🇦 Украина",
-
-  "🇸🇪 Швеция",
-
-  "🇸🇲 Сан-Марино",
-
-  "🇪🇸 Испания",
-
-  "🇵🇱 Польша"
+  "🇪🇸 Испания", "🇵🇱 Польша"
 
 ];
 
@@ -186,69 +210,71 @@ const countrySelect = document.getElementById("country");
 
 const votesDiv = document.getElementById("votes");
 
-countries.forEach((country, i) => {
+countries.forEach((c, i) => countrySelect.add(new Option(c, c)));
 
-  countrySelect.add(new Option(country, i));
+points.forEach(point => {
+
+  const card = document.createElement("div");
+
+  card.className = "card";
+
+  const label = document.createElement("label");
+
+  label.textContent = point + " баллов";
+
+  const select = document.createElement("select");
+
+  select.className = "vote";
+
+  select.add(new Option("Выбери страну", ""));
+
+  countries.forEach(c => select.add(new Option(c, c)));
+
+  card.append(label, select);
+
+  votesDiv.append(card);
 
 });
 
-function createVoting() {
+let voterId = localStorage.getItem("eurovisionVoterId");
 
-  votesDiv.innerHTML = "";
+if (!voterId) {
 
-  points.forEach(point => {
+  voterId = crypto.randomUUID();
 
-    const card = document.createElement("div");
-
-    card.className = "card";
-
-    const label = document.createElement("label");
-
-    label.textContent = point + " баллов";
-
-    const select = document.createElement("select");
-
-    select.className = "vote";
-
-    select.add(new Option("Выбери страну", ""));
-
-    countries.forEach((country, i) => {
-
-      select.add(new Option(country, i));
-
-    });
-
-    card.append(label, select);
-
-    votesDiv.append(card);
-
-  });
+  localStorage.setItem("eurovisionVoterId", voterId);
 
 }
 
-function submitVotes() {
+document.getElementById("submitButton").addEventListener("click", async () => {
 
-  const voter = countrySelect.value;
+  const message = document.getElementById("message");
+
+  const voterCountry = countrySelect.value;
 
   const selects = [...document.querySelectorAll(".vote")];
 
   const chosen = selects.map(s => s.value);
 
-  if (chosen.some(v => v === "")) {
+  if (localStorage.getItem("eurovisionVoted")) {
 
-    document.getElementById("message").textContent =
-
-      "Заполни все баллы!";
+    message.textContent = "Ты уже голосовал с этого браузера!";
 
     return;
 
   }
 
-  if (chosen.includes(voter)) {
+  if (chosen.some(v => !v)) {
 
-    document.getElementById("message").textContent =
+    message.textContent = "Заполни все баллы!";
 
-      "Нельзя голосовать за свою страну!";
+    return;
+
+  }
+
+  if (chosen.includes(voterCountry)) {
+
+    message.textContent = "Нельзя голосовать за свою страну!";
 
     return;
 
@@ -256,59 +282,180 @@ function submitVotes() {
 
   if (new Set(chosen).size !== chosen.length) {
 
-    document.getElementById("message").textContent =
-
-      "Нельзя отдавать несколько баллов одной стране!";
+    message.textContent = "Нельзя отдавать несколько баллов одной стране!";
 
     return;
 
   }
 
-  document.getElementById("message").textContent =
+  const scores = {};
 
-    "Голоса приняты! Спасибо за участие.";
+  points.forEach((p, i) => scores[String(p)] = chosen[i]);
+
+  try {
+
+    await setDoc(doc(db, "votes", voterId), {
+
+      voterCountry,
+
+      scores,
+
+      createdAt: serverTimestamp()
+
+    });
+
+    localStorage.setItem("eurovisionVoted", "true");
+
+    message.textContent = "Голоса приняты! Спасибо за участие.";
+
+    document.getElementById("submitButton").disabled = true;
+
+  } catch (error) {
+
+    message.textContent = "Не удалось отправить голоса. Возможно, ты уже голосовал.";
+
+    console.error(error);
+
+  }
+
+});
+
+document.getElementById("adminButton").addEventListener("click", () => {
+
+  document.getElementById("adminSection").classList.toggle("hidden");
+
+});
+
+document.getElementById("loginButton").addEventListener("click", async () => {
+
+  const email = document.getElementById("adminEmail").value;
+
+  const password = document.getElementById("adminPassword").value;
+
+  const message = document.getElementById("adminMessage");
+
+  try {
+
+    const result = await signInWithEmailAndPassword(auth, email, password);
+
+    if (result.user.uid !== ADMIN_UID) {
+
+      await signOut(auth);
+
+      message.textContent = "Нет доступа к админ-панели.";
+
+      return;
+
+    }
+
+    message.textContent = "Вход выполнен!";
+
+  } catch (error) {
+
+    message.textContent = "Ошибка входа. Проверь email и пароль.";
+
+  }
+
+});
+
+onAuthStateChanged(auth, user => {
+
+  const isAdmin = user && user.uid === ADMIN_UID;
+
+  document.getElementById("resultsSection").classList.toggle("hidden", !isAdmin);
+
+  if (isAdmin) loadResults();
+
+});
+
+async function loadResults() {
+
+  const ranking = document.getElementById("ranking");
+
+  const details = document.getElementById("details");
+
+  ranking.textContent = "Загрузка...";
+
+  details.textContent = "";
+
+  try {
+
+    const snapshot = await getDocs(collection(db, "votes"));
+
+    const totals = Object.fromEntries(countries.map(c => [c, 0]));
+
+    details.innerHTML = "";
+
+    snapshot.forEach(item => {
+
+      const vote = item.data();
+
+      const card = document.createElement("div");
+
+      card.className = "card";
+
+      const heading = document.createElement("strong");
+
+      heading.textContent = "Страна участника: " + vote.voterCountry;
+
+      card.append(heading);
+
+      points.forEach(p => {
+
+        const country = vote.scores[String(p)];
+
+        if (totals[country] !== undefined) totals[country] += p;
+
+        const line = document.createElement("div");
+
+        line.className = "result";
+
+        line.textContent = p + " баллов — " + country;
+
+        card.append(line);
+
+      });
+
+      details.append(card);
+
+    });
+
+    ranking.innerHTML = "";
+
+    Object.entries(totals)
+
+      .sort((a,b) => b[1] - a[1])
+
+      .forEach(([country, total], index) => {
+
+        const line = document.createElement("div");
+
+        line.className = "result";
+
+        line.textContent = (index + 1) + ". " + country + " — " + total + " баллов";
+
+        ranking.append(line);
+
+      });
+
+    if (snapshot.empty) details.textContent = "Пока нет голосов.";
+
+  } catch (error) {
+
+    ranking.textContent = "Не удалось загрузить результаты.";
+
+    console.error(error);
+
+  }
 
 }
 
-createVoting();
+document.getElementById("refreshButton").addEventListener("click", loadResults);
+
+document.getElementById("logoutButton").addEventListener("click", () => signOut(auth));
 
 </script>
 
-<script type="module">
-
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
-  import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-
-  const firebaseConfig = {
-
-    apiKey: "AIzaSyDGQotVzDyHmOqY9b8K_tWU8F4T1vsQnoc",
-
-    authDomain: "eurovision-fh-voting.firebaseapp.com",
-
-    projectId: "eurovision-fh-voting",
-
-    storageBucket: "eurovision-fh-voting.firebasestorage.app",
-
-    messagingSenderId: "28671234305",
-
-    appId: "1:28671234305:web:4ec6cbb4e69f11abaf8b00",
-
-    measurementId: "G-KTMLQ85DZQ"
-
-  };
-
-  const app = initializeApp(firebaseConfig);
-
-  const db = getFirestore(app);
-
-  const auth = getAuth(app);
-
-  console.log("Firebase подключён");
-
-</script>
 </body>
 
 </html>
