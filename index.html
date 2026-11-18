@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 
 <html lang="ru">
@@ -12,11 +14,7 @@
 
 <style>
 
-* {
-
-  box-sizing: border-box;
-
-}
+* { box-sizing: border-box; }
 
 body {
 
@@ -110,9 +108,13 @@ button {
 
 }
 
-button:hover {
+button:hover { background: #d5b45e; }
 
-  background: #d5b45e;
+button:disabled {
+
+  opacity: 0.5;
+
+  cursor: not-allowed;
 
 }
 
@@ -148,11 +150,7 @@ button:hover {
 
 }
 
-.hidden {
-
-  display: none;
-
-}
+.hidden { display: none; }
 
 .result {
 
@@ -326,8 +324,6 @@ import {
 
   getDocs,
 
-  deleteDoc,
-
   doc,
 
   getDoc,
@@ -370,29 +366,13 @@ const countries = [
 
   "🇩🇪 Германия",
 
-  "🇬🇧 Великобритания",
-
-  "🇮🇹 Италия",
-
-  "🇦🇱 Албания",
-
-  "🇲🇹 Мальта",
-
   "🇫🇷 Франция",
 
   "🇧🇬 Болгария",
 
-  "🇷🇺 Россия",
-
-  "🇧🇾 Беларусь",
-
   "🇺🇦 Украина",
 
   "🇸🇪 Швеция",
-
-  "🇸🇲 Сан-Марино",
-
-  "🇪🇸 Испания",
 
   "🇵🇱 Польша"
 
@@ -404,7 +384,7 @@ let currentRound = 1;
 
 let adminUser = null;
 
-// Создание полей для голосования
+// Создание полей голосования
 
 function createScoreFields() {
 
@@ -576,7 +556,7 @@ window.submitVote = async function() {
 
 };
 
-// Вход администратора по ссылке на почту
+// Вход администратора
 
 window.loginAdmin = async function() {
 
@@ -628,7 +608,7 @@ window.loginAdmin = async function() {
 
 };
 
-// Завершение входа по ссылке
+// Завершение входа
 
 async function finishEmailLogin() {
 
