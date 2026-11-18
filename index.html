@@ -14,7 +14,11 @@
 
 <style>
 
-* { box-sizing: border-box; }
+* {
+
+  box-sizing: border-box;
+
+}
 
 body {
 
@@ -108,7 +112,11 @@ button {
 
 }
 
-button:hover { background: #d5b45e; }
+button:hover {
+
+  background: #d5b45e;
+
+}
 
 button:disabled {
 
@@ -150,7 +158,11 @@ button:disabled {
 
 }
 
-.hidden { display: none; }
+.hidden {
+
+  display: none;
+
+}
 
 .result {
 
@@ -362,19 +374,23 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
+// НОВЫЙ СПИСОК СТРАН
+
 const countries = [
 
-  "🇩🇪 Германия",
+  "𝙎𝙖𝙣 𝙈𝙖𝙧𝙞𝙣𝙤🇸🇲",
 
-  "🇫🇷 Франция",
+  "𝘼𝙡𝙗𝙖𝙣𝙞𝙖🇦🇱",
 
-  "🇧🇬 Болгария",
+  "𝙄𝙩𝙖𝙡𝙮🇮🇹",
 
-  "🇺🇦 Украина",
+  "𝙐𝙣𝙞𝙩𝙚𝙙 𝙆𝙞𝙣𝙜𝙙𝙤𝙢🇬🇧",
 
-  "🇸🇪 Швеция",
+  "𝙈𝙖𝙡𝙩𝙖🇲🇹",
 
-  "🇵🇱 Польша"
+  "𝙎𝙥𝙖𝙞𝙣🇪🇸",
+
+  "𝙍𝙪𝙨𝙨𝙞𝙖🇷🇺"
 
 ];
 
