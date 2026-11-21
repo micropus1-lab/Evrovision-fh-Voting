@@ -212,6 +212,30 @@ button:disabled {
 
 }
 
+.huge-number {
+
+  color: #ccc;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+
+  word-break: break-all;
+
+  overflow-wrap: anywhere;
+
+  margin-top: 12px;
+
+}
+
+.huge-title {
+
+  color: #d8b65c;
+
+  font-weight: bold;
+
+}
+
 </style>
 
 </head>
@@ -281,6 +305,16 @@ placeholder="Почта администратора">
 <h2>Таблица результатов</h2>
 
 <div id="results"></div>
+
+<h2>Огромные числа стран</h2>
+
+<p class="small">
+
+Рейтинг отсортирован от самого большого числа к самому маленькому
+
+</p>
+
+<div id="hugeNumbers"></div>
 
 <h2>Подробности голосования</h2>
 
@@ -374,7 +408,7 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-// НОВЫЙ СПИСОК СТРАН
+// СПИСОК СТРАН
 
 const countries = [
 
@@ -396,13 +430,167 @@ const countries = [
 
 ];
 
+// ДЛИНА ОГРОМНЫХ ЧИСЕЛ
+
+// Можно изменить на 5000 или 10000
+
+const HUGE_NUMBER_DIGITS = 2000;
+
+const HUGE_NUMBERS_KEY = "eurovisionHugeNumbersV1";
+
+// Создание и сохранение огромных чисел
+
+function generateHugeNumber() {
+
+  const bytes = new Uint8Array(HUGE_NUMBER_DIGITS);
+
+  crypto.getRandomValues(bytes);
+
+  let number = "";
+
+  for (let i = 0; i < bytes.length; i++) {
+
+    let digit = bytes[i] % 10;
+
+    if (i === 0) {
+
+      digit = (digit % 9) + 1;
+
+    }
+
+    number += digit;
+
+  }
+
+  return number;
+
+}
+
+// Получение сохранённых чисел
+
+function getHugeNumbers() {
+
+  let saved = localStorage.getItem(HUGE_NUMBERS_KEY);
+
+  if (saved) {
+
+    try {
+
+      const parsed = JSON.parse(saved);
+
+      const valid = countries.every(country =>
+
+        typeof parsed[country] === "string" &&
+
+        parsed[country].length === HUGE_NUMBER_DIGITS
+
+      );
+
+      if (valid) return parsed;
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+  const numbers = {};
+
+  const usedNumbers = new Set();
+
+  countries.forEach(country => {
+
+    let number;
+
+    do {
+
+      number = generateHugeNumber();
+
+    } while (usedNumbers.has(number));
+
+    usedNumbers.add(number);
+
+    numbers[country] = number;
+
+  });
+
+  localStorage.setItem(
+
+    HUGE_NUMBERS_KEY,
+
+    JSON.stringify(numbers)
+
+  );
+
+  return numbers;
+
+}
+
+// Отображение огромных чисел
+
+function displayHugeNumbers() {
+
+  const box = document.getElementById("hugeNumbers");
+
+  box.innerHTML = "";
+
+  const numbers = getHugeNumbers();
+
+  const ranking = Object.entries(numbers).sort((a, b) => {
+
+    if (a[1].length !== b[1].length) {
+
+      return b[1].length - a[1].length;
+
+    }
+
+    if (a[1] > b[1]) return -1;
+
+    if (a[1] < b[1]) return 1;
+
+    return 0;
+
+  });
+
+  ranking.forEach((item, index) => {
+
+    const div = document.createElement("div");
+
+    div.className = "result";
+
+    const title = document.createElement("div");
+
+    title.className = "huge-title";
+
+    title.textContent =
+
+      (index + 1) + ". " + item[0];
+
+    const number = document.createElement("div");
+
+    number.className = "huge-number";
+
+    number.textContent = item[1];
+
+    div.appendChild(title);
+
+    div.appendChild(number);
+
+    box.appendChild(div);
+
+  });
+
+}
+
 const points = [2, 4, 6, 8, 10, 12];
 
 let currentRound = 1;
 
 let adminUser = null;
 
-// Создание полей голосования
+// СОЗДАНИЕ ПОЛЕЙ ГОЛОСОВАНИЯ
 
 function createScoreFields() {
 
@@ -456,7 +644,7 @@ function createScoreFields() {
 
 createScoreFields();
 
-// Получение номера тура
+// ПОЛУЧЕНИЕ НОМЕРА ТУРА
 
 async function getRound() {
 
@@ -478,7 +666,7 @@ async function getRound() {
 
 }
 
-// Отправка голосов
+// ОТПРАВКА ГОЛОСОВ
 
 window.submitVote = async function() {
 
@@ -574,7 +762,7 @@ window.submitVote = async function() {
 
 };
 
-// Вход администратора
+// ВХОД АДМИНИСТРАТОРА
 
 window.loginAdmin = async function() {
 
@@ -626,7 +814,7 @@ window.loginAdmin = async function() {
 
 };
 
-// Завершение входа
+// ЗАВЕРШЕНИЕ ВХОДА
 
 async function finishEmailLogin() {
 
@@ -680,7 +868,7 @@ async function finishEmailLogin() {
 
 await finishEmailLogin();
 
-// Проверка администратора
+// ПРОВЕРКА АДМИНИСТРАТОРА
 
 onAuthStateChanged(auth, async user => {
 
@@ -706,7 +894,7 @@ onAuthStateChanged(auth, async user => {
 
 });
 
-// Загрузка результатов
+// ЗАГРУЗКА РЕЗУЛЬТАТОВ
 
 window.loadResults = async function() {
 
@@ -723,6 +911,10 @@ window.loadResults = async function() {
   try {
 
     await getRound();
+
+    // Показываем огромные числа только администратору
+
+    displayHugeNumbers();
 
     document.getElementById("roundInfo").textContent =
 
@@ -838,7 +1030,7 @@ window.loadResults = async function() {
 
 };
 
-// Сброс голосования
+// СБРОС ГОЛОСОВАНИЯ
 
 window.resetVoting = async function() {
 
@@ -894,7 +1086,7 @@ window.resetVoting = async function() {
 
 };
 
-// Выход
+// ВЫХОД
 
 window.logoutAdmin = async function() {
 
