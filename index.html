@@ -380,30 +380,6 @@ button:disabled {
 
 }
 
-.huge-number {
-
-  color: #e8c8ff;
-
-  font-size: 11px;
-
-  line-height: 1.6;
-
-  word-break: break-all;
-
-  overflow-wrap: anywhere;
-
-  margin-top: 12px;
-
-}
-
-.huge-title {
-
-  color: #ff91e8;
-
-  font-weight: bold;
-
-}
-
 .hidden {
 
   display: none !important;
@@ -532,18 +508,6 @@ button:disabled {
 
         <div id="results"></div>
 
-        <h2>Огромные числа стран</h2>
-
-        <p class="small">
-
-          Рейтинг отсортирован от самого большого числа
-
-          к самому маленькому
-
-        </p>
-
-        <div id="hugeNumbers"></div>
-
         <h2>Подробности голосования</h2>
 
         <div id="details"></div>
@@ -644,8 +608,6 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-// НОВЫЕ СТРАНЫ
-
 const countries = [
 
   "Armenia 🇦🇲",
@@ -666,153 +628,11 @@ const countries = [
 
 ];
 
-// БАЛЛЫ
-
 const points = [2, 4, 6, 8, 10, 12];
 
 let currentRound = 1;
 
 let adminUser = null;
-
-// ОГРОМНЫЕ ЧИСЛА
-
-const HUGE_NUMBER_DIGITS = 2000;
-
-const HUGE_NUMBERS_KEY = "juniorEurovisionHugeNumbersV1";
-
-function generateHugeNumber() {
-
-  const bytes = new Uint8Array(HUGE_NUMBER_DIGITS);
-
-  crypto.getRandomValues(bytes);
-
-  let number = "";
-
-  for (let i = 0; i < bytes.length; i++) {
-
-    let digit = bytes[i] % 10;
-
-    if (i === 0) {
-
-      digit = (digit % 9) + 1;
-
-    }
-
-    number += digit;
-
-  }
-
-  return number;
-
-}
-
-function getHugeNumbers() {
-
-  let saved = localStorage.getItem(HUGE_NUMBERS_KEY);
-
-  if (saved) {
-
-    try {
-
-      const parsed = JSON.parse(saved);
-
-      const valid = countries.every(country =>
-
-        typeof parsed[country] === "string" &&
-
-        parsed[country].length === HUGE_NUMBER_DIGITS
-
-      );
-
-      if (valid) return parsed;
-
-    } catch (error) {
-
-      console.error(error);
-
-    }
-
-  }
-
-  const numbers = {};
-
-  const usedNumbers = new Set();
-
-  countries.forEach(country => {
-
-    let number;
-
-    do {
-
-      number = generateHugeNumber();
-
-    } while (usedNumbers.has(number));
-
-    usedNumbers.add(number);
-
-    numbers[country] = number;
-
-  });
-
-  localStorage.setItem(
-
-    HUGE_NUMBERS_KEY,
-
-    JSON.stringify(numbers)
-
-  );
-
-  return numbers;
-
-}
-
-// ПОКАЗ ОГРОМНЫХ ЧИСЕЛ ТОЛЬКО АДМИНУ
-
-function displayHugeNumbers() {
-
-  const box = document.getElementById("hugeNumbers");
-
-  box.innerHTML = "";
-
-  const numbers = getHugeNumbers();
-
-  const ranking = Object.entries(numbers).sort((a, b) => {
-
-    if (a[1] > b[1]) return -1;
-
-    if (a[1] < b[1]) return 1;
-
-    return 0;
-
-  });
-
-  ranking.forEach((item, index) => {
-
-    const div = document.createElement("div");
-
-    div.className = "result";
-
-    const title = document.createElement("div");
-
-    title.className = "huge-title";
-
-    title.textContent = (index + 1) + ". " + item[0];
-
-    const number = document.createElement("div");
-
-    number.className = "huge-number";
-
-    number.textContent = item[1];
-
-    div.appendChild(title);
-
-    div.appendChild(number);
-
-    box.appendChild(div);
-
-  });
-
-}
 
 // СОЗДАНИЕ ПОЛЕЙ ГОЛОСОВАНИЯ
 
@@ -1226,8 +1046,6 @@ window.loadResults = async function() {
 
     await getRound();
 
-    displayHugeNumbers();
-
     document.getElementById(
 
       "roundInfo"
@@ -1253,8 +1071,6 @@ window.loadResults = async function() {
     snapshot.forEach(item => {
 
       const data = item.data();
-
-      // Поддержка старых голосов без поля round
 
       if (
 
