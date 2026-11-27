@@ -5,8 +5,10 @@ window.submitVote = async function() {
 
   if (button.disabled) return;
 
+  button.disabled = true;
+  button.textContent = "ОТПРАВКА...";
+
   try {
-    button.disabled = true;
     message.textContent = "Проверяем голосование...";
 
     await getRound();
@@ -33,6 +35,11 @@ window.submitVote = async function() {
 
     for (const point of points) {
       const select = document.getElementById("score" + point);
+
+      if (!select) {
+        throw new Error("Не найдено поле для " + point + " баллов");
+      }
+
       const country = select.value;
 
       if (!country) {
@@ -50,7 +57,6 @@ window.submitVote = async function() {
     }
 
     message.textContent = "Отправляем ваши голоса...";
-    button.textContent = "ОТПРАВКА...";
 
     await addDoc(collection(db, "votes"), {
       scores: scores,
@@ -74,7 +80,8 @@ window.submitVote = async function() {
     console.error("Ошибка голосования:", error);
 
     message.textContent =
-      "Ошибка: " + (error.code || error.message || "Неизвестная ошибка");
+      "Ошибка Firebase: " +
+      (error.code || error.message || "Неизвестная ошибка");
 
   } finally {
     button.disabled = false;
