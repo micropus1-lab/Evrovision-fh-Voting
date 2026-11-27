@@ -14,11 +14,7 @@
 
 <style>
 
-* {
-
-  box-sizing: border-box;
-
-}
+* { box-sizing: border-box; }
 
 :root {
 
@@ -26,11 +22,7 @@
 
   --purple: #a52cff;
 
-  --light-purple: #d98cff;
-
   --text: #ffffff;
-
-  --panel: rgba(32, 8, 53, 0.78);
 
 }
 
@@ -48,21 +40,13 @@ body {
 
   background:
 
-    linear-gradient(
-
-      rgba(28, 0, 42, 0.43),
-
-      rgba(35, 0, 55, 0.55)
-
-    ),
+    linear-gradient(rgba(28,0,42,.55),rgba(35,0,55,.65)),
 
     url("09FC985A-65F0-4B71-B56A-2402266E9249.png");
 
   background-size: cover;
 
   background-position: center;
-
-  background-repeat: no-repeat;
 
   background-attachment: fixed;
 
@@ -76,21 +60,15 @@ body {
 
   padding: 25px;
 
-  background: rgba(24, 5, 39, 0.83);
+  background: rgba(24,5,39,.88);
 
-  border: 1px solid rgba(225, 87, 255, 0.65);
+  border: 1px solid rgba(225,87,255,.65);
 
   border-radius: 23px;
 
-  box-shadow:
-
-    0 0 25px rgba(193, 40, 255, 0.22),
-
-    inset 0 0 20px rgba(255, 40, 210, 0.06);
+  box-shadow: 0 0 25px rgba(193,40,255,.22);
 
   backdrop-filter: blur(14px);
-
-  -webkit-backdrop-filter: blur(14px);
 
 }
 
@@ -104,23 +82,13 @@ body {
 
 .logo {
 
-  font-size: clamp(30px, 7vw, 43px);
+  font-size: clamp(30px,7vw,43px);
 
   font-weight: 900;
 
   letter-spacing: 2px;
 
-  background: linear-gradient(
-
-    90deg,
-
-    #ff72e8,
-
-    #c48aff,
-
-    #ff48d7
-
-  );
+  background: linear-gradient(90deg,#ff72e8,#c48aff,#ff48d7);
 
   -webkit-background-clip: text;
 
@@ -128,7 +96,7 @@ body {
 
   color: transparent;
 
-  filter: drop-shadow(0 0 12px rgba(255, 55, 220, 0.7));
+  filter: drop-shadow(0 0 12px rgba(255,55,220,.7));
 
 }
 
@@ -136,13 +104,13 @@ body {
 
   color: #e6b8ff;
 
-  text-align: center;
-
   letter-spacing: 2px;
 
   font-size: 12px;
 
   margin-top: 10px;
+
+  text-align: center;
 
 }
 
@@ -155,8 +123,6 @@ h2 {
   font-size: 21px;
 
   margin: 22px 0;
-
-  text-shadow: 0 0 12px rgba(255, 65, 230, 0.4);
 
 }
 
@@ -184,7 +150,7 @@ h2 {
 
   padding: 15px;
 
-  border: 1px solid rgba(204, 93, 255, 0.48);
+  border: 1px solid rgba(204,93,255,.48);
 
   border-radius: 15px;
 
@@ -192,13 +158,13 @@ h2 {
 
     120deg,
 
-    rgba(114, 35, 160, 0.28),
+    rgba(114,35,160,.28),
 
-    rgba(255, 44, 203, 0.10)
+    rgba(255,44,203,.10)
 
   );
 
-  transition: 0.25s;
+  transition: .25s;
 
 }
 
@@ -206,7 +172,7 @@ h2 {
 
   border-color: #ff57df;
 
-  box-shadow: 0 0 15px rgba(255, 49, 213, 0.35);
+  box-shadow: 0 0 15px rgba(255,49,213,.35);
 
 }
 
@@ -224,7 +190,7 @@ h2 {
 
 }
 
-select, input {
+select,input {
 
   width: 100%;
 
@@ -232,23 +198,15 @@ select, input {
 
   color: white;
 
-  background: rgba(32, 10, 50, 0.95);
+  background: rgba(32,10,50,.95);
 
-  border: 1px solid rgba(208, 113, 255, 0.55);
+  border: 1px solid rgba(208,113,255,.55);
 
   border-radius: 11px;
 
   font-size: 15px;
 
   outline: none;
-
-}
-
-select:focus, input:focus {
-
-  border-color: #ff55df;
-
-  box-shadow: 0 0 10px rgba(255, 55, 210, 0.25);
 
 }
 
@@ -268,19 +226,11 @@ button {
 
   margin-top: 13px;
 
-  border: 1px solid rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,.16);
 
   border-radius: 12px;
 
-  background: linear-gradient(
-
-    100deg,
-
-    #a62be5,
-
-    #f12ab9
-
-  );
+  background: linear-gradient(100deg,#a62be5,#f12ab9);
 
   color: white;
 
@@ -290,9 +240,9 @@ button {
 
   cursor: pointer;
 
-  transition: 0.25s;
+  transition: .25s;
 
-  box-shadow: 0 0 15px rgba(220, 46, 240, 0.25);
+  box-shadow: 0 0 15px rgba(220,46,240,.25);
 
 }
 
@@ -300,19 +250,15 @@ button:hover {
 
   filter: brightness(1.16);
 
-  box-shadow: 0 0 22px rgba(255, 55, 220, 0.5);
-
-  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(255,55,220,.5);
 
 }
 
 button:disabled {
 
-  opacity: 0.5;
+  opacity: .5;
 
   cursor: not-allowed;
-
-  transform: none;
 
 }
 
@@ -326,6 +272,8 @@ button:disabled {
 
   line-height: 1.5;
 
+  overflow-wrap: anywhere;
+
 }
 
 .admin-box {
@@ -334,7 +282,7 @@ button:disabled {
 
   padding-top: 20px;
 
-  border-top: 1px solid rgba(220, 110, 255, 0.35);
+  border-top: 1px solid rgba(220,110,255,.35);
 
 }
 
@@ -344,21 +292,21 @@ button:disabled {
 
   border-radius: 15px;
 
-  background: rgba(45, 12, 65, 0.75);
+  background: rgba(45,12,65,.75);
 
-  border: 1px solid rgba(185, 95, 255, 0.4);
+  border: 1px solid rgba(185,95,255,.4);
 
 }
 
 .secondary {
 
-  background: linear-gradient(100deg, #6630a9, #a63acb);
+  background: linear-gradient(100deg,#6630a9,#a63acb);
 
 }
 
 .danger {
 
-  background: linear-gradient(100deg, #a3226e, #e02e80);
+  background: linear-gradient(100deg,#a3226e,#e02e80);
 
 }
 
@@ -370,9 +318,9 @@ button:disabled {
 
   border-radius: 11px;
 
-  background: rgba(119, 39, 153, 0.23);
+  background: rgba(119,39,153,.23);
 
-  border: 1px solid rgba(205, 102, 255, 0.3);
+  border: 1px solid rgba(205,102,255,.3);
 
   color: #f8dfff;
 
@@ -390,7 +338,7 @@ button:disabled {
 
   text-align: center;
 
-  color: rgba(231, 186, 255, 0.6);
+  color: rgba(231,186,255,.6);
 
   font-size: 11px;
 
@@ -400,7 +348,7 @@ button:disabled {
 
 }
 
-@media (max-width: 480px) {
+@media(max-width:480px) {
 
   body {
 
@@ -470,15 +418,11 @@ button:disabled {
 
     <div id="loginBox" class="admin-card">
 
-      <input
-
-        id="adminEmail"
+      <input id="adminEmail"
 
         type="email"
 
-        placeholder="Почта администратора"
-
-      >
+        placeholder="Почта администратора">
 
       <button onclick="loginAdmin()">
 
@@ -566,7 +510,7 @@ import {
 
   collection,
 
-  addDoc,
+  setDoc,
 
   getDocs,
 
@@ -574,7 +518,7 @@ import {
 
   getDoc,
 
-  setDoc,
+  setDoc as saveDoc,
 
   serverTimestamp,
 
@@ -628,13 +572,11 @@ const countries = [
 
 ];
 
-const points = [2, 4, 6, 8, 10, 12];
+const points = [2,4,6,8,10,12];
 
 let currentRound = 1;
 
 let adminUser = null;
-
-// СОЗДАНИЕ ПОЛЕЙ ГОЛОСОВАНИЯ
 
 function createScoreFields() {
 
@@ -688,23 +630,17 @@ function createScoreFields() {
 
 createScoreFields();
 
-// ПОЛУЧЕНИЕ НОМЕРА ТУРА
-
 async function getRound() {
 
-  const ref = doc(db, "settings", "voting");
+  const ref = doc(db,"settings","voting");
 
   const snapshot = await getDoc(ref);
 
-  if (snapshot.exists()) {
+  currentRound = snapshot.exists()
 
-    currentRound = snapshot.data().round || 1;
+    ? (snapshot.data().round || 1)
 
-  } else {
-
-    currentRound = 1;
-
-  }
+    : 1;
 
   return currentRound;
 
@@ -720,23 +656,41 @@ window.submitVote = async function() {
 
   if (button.disabled) return;
 
+  button.disabled = true;
+
+  button.textContent = "ОТПРАВКА...";
+
   try {
 
-    button.disabled = true;
+    message.textContent = "Проверяем голосование...";
 
     await getRound();
 
-    const votedRound = localStorage.getItem(
+    const voterKey = "juniorEurovisionVoterId";
 
-      "juniorEurovisionVotedRound"
+    let voterId = localStorage.getItem(voterKey);
 
-    );
+    if (!voterId) {
+
+      if (!crypto.randomUUID) {
+
+        throw new Error("Обновите браузер для голосования");
+
+      }
+
+      voterId = crypto.randomUUID();
+
+      localStorage.setItem(voterKey,voterId);
+
+    }
+
+    const votedKey = "juniorEurovisionVotedRound";
+
+    const votedRound = localStorage.getItem(votedKey);
 
     if (votedRound === String(currentRound)) {
 
-      message.textContent =
-
-        "Вы уже проголосовали в этом туре";
+      message.textContent = "Вы уже проголосовали в этом туре!";
 
       return;
 
@@ -744,83 +698,79 @@ window.submitVote = async function() {
 
     const scores = {};
 
-    const selectedCountries = [];
+    const selected = [];
 
     for (const point of points) {
 
-      const country = document.getElementById(
+      const select = document.getElementById("score" + point);
 
-        "score" + point
-
-      ).value;
+      const country = select?.value;
 
       if (!country) {
 
-        message.textContent =
-
-          "Пожалуйста, распределите все баллы";
+        message.textContent = "Распределите все баллы!";
 
         return;
 
       }
 
-      if (selectedCountries.includes(country)) {
+      if (selected.includes(country)) {
 
-        message.textContent =
-
-          "Нельзя выбирать одну страну несколько раз";
+        message.textContent = "Нельзя выбирать одну страну дважды!";
 
         return;
 
       }
 
-      selectedCountries.push(country);
+      selected.push(country);
 
       scores[String(point)] = country;
 
     }
 
-    button.textContent = "ОТПРАВКА...";
+    message.textContent = "Сохраняем ваши голоса...";
 
-    await addDoc(collection(db, "votes"), {
+    const voteId = voterId + "_" + currentRound;
 
-      scores: scores,
+    await setDoc(doc(db,"votes",voteId), {
+
+      scores,
 
       round: currentRound,
+
+      voterId,
 
       createdAt: serverTimestamp()
 
     });
 
-    localStorage.setItem(
+    localStorage.setItem(votedKey,String(currentRound));
 
-      "juniorEurovisionVotedRound",
-
-      String(currentRound)
-
-    );
-
-    message.textContent =
-
-      "Ваши голоса успешно отправлены!";
+    message.textContent = "Ваши голоса успешно отправлены!";
 
     points.forEach(point => {
 
-      document.getElementById(
-
-        "score" + point
-
-      ).value = "";
+      document.getElementById("score" + point).value = "";
 
     });
 
-  } catch (error) {
+  } catch(error) {
 
-    console.error(error);
+    console.error("Ошибка голосования:",error);
 
-    message.textContent =
+    if (error.code === "permission-denied") {
 
-      "Ошибка отправки. Попробуйте ещё раз.";
+      message.textContent =
+
+        "Доступ запрещён Firebase. Проверьте Rules или повторную отправку.";
+
+    } else {
+
+      message.textContent =
+
+        "Ошибка Firebase: " + (error.code || error.message || "Неизвестная ошибка");
+
+    }
 
   } finally {
 
@@ -832,27 +782,17 @@ window.submitVote = async function() {
 
 };
 
-// ВХОД АДМИНИСТРАТОРА
+// АДМИНИСТРАТОР
 
 window.loginAdmin = async function() {
 
-  const email = document.getElementById(
+  const email = document.getElementById("adminEmail").value.trim();
 
-    "adminEmail"
-
-  ).value.trim();
-
-  const message = document.getElementById(
-
-    "loginMessage"
-
-  );
+  const message = document.getElementById("loginMessage");
 
   if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
 
-    message.textContent =
-
-      "Нет доступа к админ-панели";
+    message.textContent = "Нет доступа к админ-панели";
 
     return;
 
@@ -860,43 +800,27 @@ window.loginAdmin = async function() {
 
   try {
 
-    const actionCodeSettings = {
+    const settings = {
 
-      url: window.location.href.split("?")[0],
+      url: window.location.origin + window.location.pathname,
 
       handleCodeInApp: true
 
     };
 
-    await sendSignInLinkToEmail(
+    await sendSignInLinkToEmail(auth,email,settings);
 
-      auth,
+    localStorage.setItem("adminEmailForSignIn",email);
 
-      email,
+    message.textContent = "Ссылка отправлена на вашу почту!";
 
-      actionCodeSettings
-
-    );
-
-    localStorage.setItem(
-
-      "adminEmailForSignIn",
-
-      email
-
-    );
-
-    message.textContent =
-
-      "Ссылка для входа отправлена на вашу почту";
-
-  } catch (error) {
+  } catch(error) {
 
     console.error(error);
 
     message.textContent =
 
-      "Ошибка отправки ссылки";
+      "Ошибка входа: " + (error.code || error.message);
 
   }
 
@@ -906,71 +830,39 @@ window.loginAdmin = async function() {
 
 async function finishEmailLogin() {
 
-  if (
+  if (!isSignInWithEmailLink(auth,window.location.href)) return;
 
-    isSignInWithEmailLink(
+  let email = localStorage.getItem("adminEmailForSignIn");
 
-      auth,
+  if (!email) {
 
-      window.location.href
+    email = prompt("Введите почту администратора");
 
-    )
+  }
 
-  ) {
+  if (!email) return;
 
-    let email = localStorage.getItem(
+  try {
 
-      "adminEmailForSignIn"
+    await signInWithEmailLink(auth,email,window.location.href);
+
+    localStorage.removeItem("adminEmailForSignIn");
+
+    window.history.replaceState(
+
+      {},
+
+      document.title,
+
+      window.location.pathname
 
     );
 
-    if (!email) {
+  } catch(error) {
 
-      email = prompt("Введите почту администратора");
+    console.error(error);
 
-    }
-
-    if (!email) return;
-
-    try {
-
-      await signInWithEmailLink(
-
-        auth,
-
-        email,
-
-        window.location.href
-
-      );
-
-      localStorage.removeItem(
-
-        "adminEmailForSignIn"
-
-      );
-
-      window.history.replaceState(
-
-        {},
-
-        document.title,
-
-        window.location.pathname
-
-      );
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-
-        "Не удалось выполнить вход. Проверьте почту."
-
-      );
-
-    }
+    alert("Ошибка входа: " + (error.code || error.message));
 
   }
 
@@ -980,7 +872,7 @@ await finishEmailLogin();
 
 // ПРОВЕРКА АДМИНИСТРАТОРА
 
-onAuthStateChanged(auth, async user => {
+onAuthStateChanged(auth,async user => {
 
   if (
 
@@ -994,17 +886,9 @@ onAuthStateChanged(auth, async user => {
 
     adminUser = user;
 
-    document.getElementById(
+    document.getElementById("loginBox").classList.add("hidden");
 
-      "loginBox"
-
-    ).classList.add("hidden");
-
-    document.getElementById(
-
-      "adminPanel"
-
-    ).classList.remove("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
 
     await loadResults();
 
@@ -1012,23 +896,15 @@ onAuthStateChanged(auth, async user => {
 
     adminUser = null;
 
-    document.getElementById(
+    document.getElementById("loginBox").classList.remove("hidden");
 
-      "loginBox"
-
-    ).classList.remove("hidden");
-
-    document.getElementById(
-
-      "adminPanel"
-
-    ).classList.add("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
 
   }
 
 });
 
-// ЗАГРУЗКА РЕЗУЛЬТАТОВ
+// РЕЗУЛЬТАТЫ
 
 window.loadResults = async function() {
 
@@ -1038,7 +914,7 @@ window.loadResults = async function() {
 
   const detailsBox = document.getElementById("details");
 
-  resultsBox.innerHTML = "Загрузка...";
+  resultsBox.textContent = "Загрузка...";
 
   detailsBox.innerHTML = "";
 
@@ -1046,25 +922,15 @@ window.loadResults = async function() {
 
     await getRound();
 
-    document.getElementById(
+    document.getElementById("roundInfo").textContent =
 
-      "roundInfo"
+      "Текущий тур: " + currentRound;
 
-    ).textContent = "Текущий тур: " + currentRound;
-
-    const snapshot = await getDocs(
-
-      collection(db, "votes")
-
-    );
+    const snapshot = await getDocs(collection(db,"votes"));
 
     const totals = {};
 
-    countries.forEach(country => {
-
-      totals[country] = 0;
-
-    });
+    countries.forEach(country => totals[country] = 0);
 
     const votes = [];
 
@@ -1072,13 +938,7 @@ window.loadResults = async function() {
 
       const data = item.data();
 
-      if (
-
-        data.round === undefined ||
-
-        data.round === currentRound
-
-      ) {
+      if (data.round === currentRound) {
 
         votes.push(data);
 
@@ -1086,23 +946,21 @@ window.loadResults = async function() {
 
     });
 
-    votes.sort((a, b) => {
+    votes.sort((a,b) => {
 
-      const timeA = a.createdAt?.toMillis?.() || 0;
+      const t1 = a.createdAt?.toMillis?.() || 0;
 
-      const timeB = b.createdAt?.toMillis?.() || 0;
+      const t2 = b.createdAt?.toMillis?.() || 0;
 
-      return timeA - timeB;
+      return t1 - t2;
 
     });
 
     votes.forEach(vote => {
 
-      if (!vote.scores) return;
-
       points.forEach(point => {
 
-        const country = vote.scores[String(point)];
+        const country = vote.scores?.[String(point)];
 
         if (country && totals[country] !== undefined) {
 
@@ -1116,11 +974,11 @@ window.loadResults = async function() {
 
     const ranking = Object.entries(totals)
 
-      .sort((a, b) => b[1] - a[1]);
+      .sort((a,b) => b[1] - a[1]);
 
     resultsBox.innerHTML = "";
 
-    ranking.forEach((item, index) => {
+    ranking.forEach((item,index) => {
 
       const div = document.createElement("div");
 
@@ -1128,11 +986,7 @@ window.loadResults = async function() {
 
       div.textContent =
 
-        (index + 1) + ". " +
-
-        item[0] + " — " +
-
-        item[1] + " баллов";
+        (index + 1) + ". " + item[0] + " — " + item[1] + " баллов";
 
       resultsBox.appendChild(div);
 
@@ -1142,13 +996,11 @@ window.loadResults = async function() {
 
     if (votes.length === 0) {
 
-      detailsBox.textContent =
-
-        "Пока никто не проголосовал";
+      detailsBox.textContent = "Пока никто не проголосовал";
 
     }
 
-    votes.forEach((vote, index) => {
+    votes.forEach((vote,index) => {
 
       const div = document.createElement("div");
 
@@ -1156,9 +1008,7 @@ window.loadResults = async function() {
 
       const title = document.createElement("strong");
 
-      title.textContent =
-
-        "Участник " + (index + 1);
+      title.textContent = "Участник " + (index + 1);
 
       div.appendChild(title);
 
@@ -1180,13 +1030,13 @@ window.loadResults = async function() {
 
     });
 
-  } catch (error) {
+  } catch(error) {
 
     console.error(error);
 
     resultsBox.textContent =
 
-      "Ошибка загрузки результатов";
+      "Ошибка загрузки: " + (error.code || error.message);
 
   }
 
@@ -1200,7 +1050,7 @@ window.resetVoting = async function() {
 
   const confirmed = confirm(
 
-    "Вы уверены? Все голоса текущего тура будут удалены."
+    "Вы уверены? Все сохранённые голоса будут удалены."
 
   );
 
@@ -1208,27 +1058,13 @@ window.resetVoting = async function() {
 
   try {
 
-    const snapshot = await getDocs(
+    const snapshot = await getDocs(collection(db,"votes"));
 
-      collection(db, "votes")
-
-    );
-
-    const documents = snapshot.docs;
-
-    for (
-
-      let i = 0;
-
-      i < documents.length;
-
-      i += 400
-
-    ) {
+    for (let i = 0; i < snapshot.docs.length; i += 400) {
 
       const batch = writeBatch(db);
 
-      documents.slice(i, i + 400).forEach(item => {
+      snapshot.docs.slice(i,i + 400).forEach(item => {
 
         batch.delete(item.ref);
 
@@ -1240,35 +1076,21 @@ window.resetVoting = async function() {
 
     currentRound++;
 
-    await setDoc(
+    await saveDoc(doc(db,"settings","voting"),{
 
-      doc(db, "settings", "voting"),
+      round: currentRound
 
-      {
-
-        round: currentRound
-
-      }
-
-    );
+    });
 
     await loadResults();
 
-    alert(
+    alert("Голосование сброшено. Начался новый тур!");
 
-      "Голосование сброшено. Начался новый тур."
-
-    );
-
-  } catch (error) {
+  } catch(error) {
 
     console.error(error);
 
-    alert(
-
-      "Не удалось сбросить голосование"
-
-    );
+    alert("Ошибка сброса: " + (error.code || error.message));
 
   }
 
