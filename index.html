@@ -1,90 +1,1289 @@
 
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Junior Eurovision</title>
+
+<style>
+
+* {
+
+  box-sizing: border-box;
+
+}
+
+:root {
+
+  --pink: #ff35d3;
+
+  --purple: #a52cff;
+
+  --light-purple: #d98cff;
+
+  --text: #ffffff;
+
+  --panel: rgba(32, 8, 53, 0.78);
+
+}
+
+body {
+
+  margin: 0;
+
+  padding: 18px;
+
+  min-height: 100vh;
+
+  color: var(--text);
+
+  font-family: Arial, sans-serif;
+
+  background:
+
+    linear-gradient(
+
+      rgba(28, 0, 42, 0.43),
+
+      rgba(35, 0, 55, 0.55)
+
+    ),
+
+    url("09FC985A-65F0-4B71-B56A-2402266E9249.png");
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
+
+}
+
+.container {
+
+  max-width: 650px;
+
+  margin: 25px auto;
+
+  padding: 25px;
+
+  background: rgba(24, 5, 39, 0.83);
+
+  border: 1px solid rgba(225, 87, 255, 0.65);
+
+  border-radius: 23px;
+
+  box-shadow:
+
+    0 0 25px rgba(193, 40, 255, 0.22),
+
+    inset 0 0 20px rgba(255, 40, 210, 0.06);
+
+  backdrop-filter: blur(14px);
+
+  -webkit-backdrop-filter: blur(14px);
+
+}
+
+.header {
+
+  text-align: center;
+
+  padding: 12px 0 22px;
+
+}
+
+.logo {
+
+  font-size: clamp(30px, 7vw, 43px);
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  background: linear-gradient(
+
+    90deg,
+
+    #ff72e8,
+
+    #c48aff,
+
+    #ff48d7
+
+  );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  color: transparent;
+
+  filter: drop-shadow(0 0 12px rgba(255, 55, 220, 0.7));
+
+}
+
+.subtitle {
+
+  color: #e6b8ff;
+
+  text-align: center;
+
+  letter-spacing: 2px;
+
+  font-size: 12px;
+
+  margin-top: 10px;
+
+}
+
+h2 {
+
+  color: #f5a5ff;
+
+  text-align: center;
+
+  font-size: 21px;
+
+  margin: 22px 0;
+
+  text-shadow: 0 0 12px rgba(255, 65, 230, 0.4);
+
+}
+
+.small {
+
+  color: #d5b8e7;
+
+  font-size: 13px;
+
+  text-align: center;
+
+  line-height: 1.6;
+
+}
+
+#scoreFields {
+
+  display: grid;
+
+  gap: 13px;
+
+}
+
+.country {
+
+  padding: 15px;
+
+  border: 1px solid rgba(204, 93, 255, 0.48);
+
+  border-radius: 15px;
+
+  background: linear-gradient(
+
+    120deg,
+
+    rgba(114, 35, 160, 0.28),
+
+    rgba(255, 44, 203, 0.10)
+
+  );
+
+  transition: 0.25s;
+
+}
+
+.country:focus-within {
+
+  border-color: #ff57df;
+
+  box-shadow: 0 0 15px rgba(255, 49, 213, 0.35);
+
+}
+
+.country label {
+
+  display: block;
+
+  color: #ff9aeb;
+
+  font-weight: bold;
+
+  font-size: 16px;
+
+  margin-bottom: 9px;
+
+}
+
+select, input {
+
+  width: 100%;
+
+  padding: 14px;
+
+  color: white;
+
+  background: rgba(32, 10, 50, 0.95);
+
+  border: 1px solid rgba(208, 113, 255, 0.55);
+
+  border-radius: 11px;
+
+  font-size: 15px;
+
+  outline: none;
+
+}
+
+select:focus, input:focus {
+
+  border-color: #ff55df;
+
+  box-shadow: 0 0 10px rgba(255, 55, 210, 0.25);
+
+}
+
+select option {
+
+  background: #260b39;
+
+  color: white;
+
+}
+
+button {
+
+  width: 100%;
+
+  padding: 15px;
+
+  margin-top: 13px;
+
+  border: 1px solid rgba(255,255,255,0.16);
+
+  border-radius: 12px;
+
+  background: linear-gradient(
+
+    100deg,
+
+    #a62be5,
+
+    #f12ab9
+
+  );
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+
+  box-shadow: 0 0 15px rgba(220, 46, 240, 0.25);
+
+}
+
+button:hover {
+
+  filter: brightness(1.16);
+
+  box-shadow: 0 0 22px rgba(255, 55, 220, 0.5);
+
+  transform: translateY(-1px);
+
+}
+
+button:disabled {
+
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+}
+
+.message {
+
+  text-align: center;
+
+  color: #ff9eea;
+
+  margin-top: 15px;
+
+  line-height: 1.5;
+
+}
+
+.admin-box {
+
+  margin-top: 35px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(220, 110, 255, 0.35);
+
+}
+
+.admin-card {
+
+  padding: 17px;
+
+  border-radius: 15px;
+
+  background: rgba(45, 12, 65, 0.75);
+
+  border: 1px solid rgba(185, 95, 255, 0.4);
+
+}
+
+.secondary {
+
+  background: linear-gradient(100deg, #6630a9, #a63acb);
+
+}
+
+.danger {
+
+  background: linear-gradient(100deg, #a3226e, #e02e80);
+
+}
+
+.result {
+
+  padding: 13px;
+
+  margin: 9px 0;
+
+  border-radius: 11px;
+
+  background: rgba(119, 39, 153, 0.23);
+
+  border: 1px solid rgba(205, 102, 255, 0.3);
+
+  color: #f8dfff;
+
+  overflow-wrap: anywhere;
+
+}
+
+.hidden {
+
+  display: none !important;
+
+}
+
+.footer {
+
+  text-align: center;
+
+  color: rgba(231, 186, 255, 0.6);
+
+  font-size: 11px;
+
+  margin-top: 25px;
+
+  letter-spacing: 2px;
+
+}
+
+@media (max-width: 480px) {
+
+  body {
+
+    padding: 9px;
+
+    background-attachment: scroll;
+
+  }
+
+  .container {
+
+    padding: 17px;
+
+    margin: 12px auto;
+
+  }
+
+  .country {
+
+    padding: 12px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+
+    <div class="logo">JUNIOR EUROVISION</div>
+
+    <p class="subtitle">OFFICIAL VOTING</p>
+
+  </div>
+
+  <div id="voting">
+
+    <h2>Голосование</h2>
+
+    <p class="small">
+
+      Распределите баллы между шестью разными странами
+
+    </p>
+
+    <div id="scoreFields"></div>
+
+    <button id="voteButton" onclick="submitVote()">
+
+      ОТПРАВИТЬ ГОЛОСА
+
+    </button>
+
+    <p id="voteMessage" class="message"></p>
+
+  </div>
+
+  <div class="admin-box">
+
+    <h2>Администрация</h2>
+
+    <div id="loginBox" class="admin-card">
+
+      <input
+
+        id="adminEmail"
+
+        type="email"
+
+        placeholder="Почта администратора"
+
+      >
+
+      <button onclick="loginAdmin()">
+
+        ВОЙТИ В АДМИН-ПАНЕЛЬ
+
+      </button>
+
+      <p id="loginMessage" class="message"></p>
+
+    </div>
+
+    <div id="adminPanel" class="hidden">
+
+      <div class="admin-card">
+
+        <h2>Панель администратора</h2>
+
+        <p id="roundInfo" class="message"></p>
+
+        <button class="secondary" onclick="loadResults()">
+
+          ОБНОВИТЬ РЕЗУЛЬТАТЫ
+
+        </button>
+
+        <h2>Таблица результатов</h2>
+
+        <div id="results"></div>
+
+        <h2>Подробности голосования</h2>
+
+        <div id="details"></div>
+
+        <button class="danger" onclick="resetVoting()">
+
+          СБРОСИТЬ ГОЛОСОВАНИЕ
+
+        </button>
+
+        <button class="secondary" onclick="logoutAdmin()">
+
+          ВЫЙТИ ИЗ АДМИН-ПАНЕЛИ
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+
+    JUNIOR EUROVISION • OFFICIAL VOTING
+
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+
+import {
+
+  getAuth,
+
+  sendSignInLinkToEmail,
+
+  isSignInWithEmailLink,
+
+  signInWithEmailLink,
+
+  signOut,
+
+  onAuthStateChanged
+
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+import {
+
+  getFirestore,
+
+  collection,
+
+  addDoc,
+
+  getDocs,
+
+  doc,
+
+  getDoc,
+
+  setDoc,
+
+  serverTimestamp,
+
+  writeBatch
+
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyC8SKJZIDbNuo3nmZK_3bpUbWpCuWEa0Xg",
+
+  authDomain: "eurovision-fh-voting-a8f25.firebaseapp.com",
+
+  projectId: "eurovision-fh-voting-a8f25",
+
+  storageBucket: "eurovision-fh-voting-a8f25.firebasestorage.app",
+
+  messagingSenderId: "429725643873",
+
+  appId: "1:429725643873:web:5305437fd2d799ccd06620",
+
+  measurementId: "G-42HFQK5DH8"
+
+};
+
+const ADMIN_EMAIL = "micropus1@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const countries = [
+
+  "Armenia 🇦🇲",
+
+  "France 🇫🇷",
+
+  "United Kingdom 🇬🇧",
+
+  "Italy 🇮🇹",
+
+  "Cyprus 🇨🇾",
+
+  "Poland 🇵🇱",
+
+  "Russia 🇷🇺",
+
+  "Ukraine 🇺🇦"
+
+];
+
+const points = [2, 4, 6, 8, 10, 12];
+
+let currentRound = 1;
+
+let adminUser = null;
+
+// СОЗДАНИЕ ПОЛЕЙ ГОЛОСОВАНИЯ
+
+function createScoreFields() {
+
+  const container = document.getElementById("scoreFields");
+
+  container.innerHTML = "";
+
+  points.forEach(point => {
+
+    const div = document.createElement("div");
+
+    div.className = "country";
+
+    const label = document.createElement("label");
+
+    label.textContent = point + " БАЛЛОВ";
+
+    const select = document.createElement("select");
+
+    select.id = "score" + point;
+
+    const placeholder = document.createElement("option");
+
+    placeholder.value = "";
+
+    placeholder.textContent = "Выберите страну";
+
+    select.appendChild(placeholder);
+
+    countries.forEach(country => {
+
+      const option = document.createElement("option");
+
+      option.value = country;
+
+      option.textContent = country;
+
+      select.appendChild(option);
+
+    });
+
+    div.appendChild(label);
+
+    div.appendChild(select);
+
+    container.appendChild(div);
+
+  });
+
+}
+
+createScoreFields();
+
+// ПОЛУЧЕНИЕ НОМЕРА ТУРА
+
+async function getRound() {
+
+  const ref = doc(db, "settings", "voting");
+
+  const snapshot = await getDoc(ref);
+
+  if (snapshot.exists()) {
+
+    currentRound = snapshot.data().round || 1;
+
+  } else {
+
+    currentRound = 1;
+
+  }
+
+  return currentRound;
+
+}
+
+// ОТПРАВКА ГОЛОСОВ
+
 window.submitVote = async function() {
+
   const message = document.getElementById("voteMessage");
+
   const button = document.getElementById("voteButton");
 
   if (button.disabled) return;
 
-  button.disabled = true;
-  button.textContent = "ОТПРАВКА...";
-
   try {
-    message.textContent = "Проверяем голосование...";
+
+    button.disabled = true;
 
     await getRound();
 
-    const voterIdKey = "juniorEurovisionVoterId";
-    let voterId = localStorage.getItem(voterIdKey);
-
-    if (!voterId) {
-      voterId = crypto.randomUUID();
-      localStorage.setItem(voterIdKey, voterId);
-    }
-
     const votedRound = localStorage.getItem(
+
       "juniorEurovisionVotedRound"
+
     );
 
     if (votedRound === String(currentRound)) {
-      message.textContent = "Вы уже проголосовали в этом туре!";
+
+      message.textContent =
+
+        "Вы уже проголосовали в этом туре";
+
       return;
+
     }
 
     const scores = {};
+
     const selectedCountries = [];
 
     for (const point of points) {
-      const select = document.getElementById("score" + point);
 
-      if (!select) {
-        throw new Error("Не найдено поле для " + point + " баллов");
-      }
+      const country = document.getElementById(
 
-      const country = select.value;
+        "score" + point
+
+      ).value;
 
       if (!country) {
-        message.textContent = "Распределите все баллы!";
+
+        message.textContent =
+
+          "Пожалуйста, распределите все баллы";
+
         return;
+
       }
 
       if (selectedCountries.includes(country)) {
-        message.textContent = "Нельзя выбирать одну страну дважды!";
+
+        message.textContent =
+
+          "Нельзя выбирать одну страну несколько раз";
+
         return;
+
       }
 
       selectedCountries.push(country);
+
       scores[String(point)] = country;
+
     }
 
-    message.textContent = "Отправляем ваши голоса...";
+    button.textContent = "ОТПРАВКА...";
 
     await addDoc(collection(db, "votes"), {
+
       scores: scores,
+
       round: currentRound,
-      voterId: voterId,
+
       createdAt: serverTimestamp()
+
     });
 
     localStorage.setItem(
+
       "juniorEurovisionVotedRound",
+
       String(currentRound)
+
     );
 
-    message.textContent = "Ваши голоса успешно отправлены!";
+    message.textContent =
+
+      "Ваши голоса успешно отправлены!";
 
     points.forEach(point => {
-      document.getElementById("score" + point).value = "";
+
+      document.getElementById(
+
+        "score" + point
+
+      ).value = "";
+
     });
 
   } catch (error) {
-    console.error("Ошибка голосования:", error);
+
+    console.error(error);
 
     message.textContent =
-      "Ошибка Firebase: " +
-      (error.code || error.message || "Неизвестная ошибка");
+
+      "Ошибка отправки. Попробуйте ещё раз.";
 
   } finally {
+
     button.disabled = false;
+
     button.textContent = "ОТПРАВИТЬ ГОЛОСА";
+
   }
+
 };
+
+// ВХОД АДМИНИСТРАТОРА
+
+window.loginAdmin = async function() {
+
+  const email = document.getElementById(
+
+    "adminEmail"
+
+  ).value.trim();
+
+  const message = document.getElementById(
+
+    "loginMessage"
+
+  );
+
+  if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+
+    message.textContent =
+
+      "Нет доступа к админ-панели";
+
+    return;
+
+  }
+
+  try {
+
+    const actionCodeSettings = {
+
+      url: window.location.href.split("?")[0],
+
+      handleCodeInApp: true
+
+    };
+
+    await sendSignInLinkToEmail(
+
+      auth,
+
+      email,
+
+      actionCodeSettings
+
+    );
+
+    localStorage.setItem(
+
+      "adminEmailForSignIn",
+
+      email
+
+    );
+
+    message.textContent =
+
+      "Ссылка для входа отправлена на вашу почту";
+
+  } catch (error) {
+
+    console.error(error);
+
+    message.textContent =
+
+      "Ошибка отправки ссылки";
+
+  }
+
+};
+
+// ЗАВЕРШЕНИЕ ВХОДА
+
+async function finishEmailLogin() {
+
+  if (
+
+    isSignInWithEmailLink(
+
+      auth,
+
+      window.location.href
+
+    )
+
+  ) {
+
+    let email = localStorage.getItem(
+
+      "adminEmailForSignIn"
+
+    );
+
+    if (!email) {
+
+      email = prompt("Введите почту администратора");
+
+    }
+
+    if (!email) return;
+
+    try {
+
+      await signInWithEmailLink(
+
+        auth,
+
+        email,
+
+        window.location.href
+
+      );
+
+      localStorage.removeItem(
+
+        "adminEmailForSignIn"
+
+      );
+
+      window.history.replaceState(
+
+        {},
+
+        document.title,
+
+        window.location.pathname
+
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+
+        "Не удалось выполнить вход. Проверьте почту."
+
+      );
+
+    }
+
+  }
+
+}
+
+await finishEmailLogin();
+
+// ПРОВЕРКА АДМИНИСТРАТОРА
+
+onAuthStateChanged(auth, async user => {
+
+  if (
+
+    user &&
+
+    user.email &&
+
+    user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+
+  ) {
+
+    adminUser = user;
+
+    document.getElementById(
+
+      "loginBox"
+
+    ).classList.add("hidden");
+
+    document.getElementById(
+
+      "adminPanel"
+
+    ).classList.remove("hidden");
+
+    await loadResults();
+
+  } else {
+
+    adminUser = null;
+
+    document.getElementById(
+
+      "loginBox"
+
+    ).classList.remove("hidden");
+
+    document.getElementById(
+
+      "adminPanel"
+
+    ).classList.add("hidden");
+
+  }
+
+});
+
+// ЗАГРУЗКА РЕЗУЛЬТАТОВ
+
+window.loadResults = async function() {
+
+  if (!adminUser) return;
+
+  const resultsBox = document.getElementById("results");
+
+  const detailsBox = document.getElementById("details");
+
+  resultsBox.innerHTML = "Загрузка...";
+
+  detailsBox.innerHTML = "";
+
+  try {
+
+    await getRound();
+
+    document.getElementById(
+
+      "roundInfo"
+
+    ).textContent = "Текущий тур: " + currentRound;
+
+    const snapshot = await getDocs(
+
+      collection(db, "votes")
+
+    );
+
+    const totals = {};
+
+    countries.forEach(country => {
+
+      totals[country] = 0;
+
+    });
+
+    const votes = [];
+
+    snapshot.forEach(item => {
+
+      const data = item.data();
+
+      if (
+
+        data.round === undefined ||
+
+        data.round === currentRound
+
+      ) {
+
+        votes.push(data);
+
+      }
+
+    });
+
+    votes.sort((a, b) => {
+
+      const timeA = a.createdAt?.toMillis?.() || 0;
+
+      const timeB = b.createdAt?.toMillis?.() || 0;
+
+      return timeA - timeB;
+
+    });
+
+    votes.forEach(vote => {
+
+      if (!vote.scores) return;
+
+      points.forEach(point => {
+
+        const country = vote.scores[String(point)];
+
+        if (country && totals[country] !== undefined) {
+
+          totals[country] += point;
+
+        }
+
+      });
+
+    });
+
+    const ranking = Object.entries(totals)
+
+      .sort((a, b) => b[1] - a[1]);
+
+    resultsBox.innerHTML = "";
+
+    ranking.forEach((item, index) => {
+
+      const div = document.createElement("div");
+
+      div.className = "result";
+
+      div.textContent =
+
+        (index + 1) + ". " +
+
+        item[0] + " — " +
+
+        item[1] + " баллов";
+
+      resultsBox.appendChild(div);
+
+    });
+
+    detailsBox.innerHTML = "";
+
+    if (votes.length === 0) {
+
+      detailsBox.textContent =
+
+        "Пока никто не проголосовал";
+
+    }
+
+    votes.forEach((vote, index) => {
+
+      const div = document.createElement("div");
+
+      div.className = "result";
+
+      const title = document.createElement("strong");
+
+      title.textContent =
+
+        "Участник " + (index + 1);
+
+      div.appendChild(title);
+
+      points.forEach(point => {
+
+        const line = document.createElement("p");
+
+        line.textContent =
+
+          point + " баллов — " +
+
+          (vote.scores?.[String(point)] || "Нет данных");
+
+        div.appendChild(line);
+
+      });
+
+      detailsBox.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    resultsBox.textContent =
+
+      "Ошибка загрузки результатов";
+
+  }
+
+};
+
+// СБРОС ГОЛОСОВАНИЯ
+
+window.resetVoting = async function() {
+
+  if (!adminUser) return;
+
+  const confirmed = confirm(
+
+    "Вы уверены? Все голоса текущего тура будут удалены."
+
+  );
+
+  if (!confirmed) return;
+
+  try {
+
+    const snapshot = await getDocs(
+
+      collection(db, "votes")
+
+    );
+
+    const documents = snapshot.docs;
+
+    for (
+
+      let i = 0;
+
+      i < documents.length;
+
+      i += 400
+
+    ) {
+
+      const batch = writeBatch(db);
+
+      documents.slice(i, i + 400).forEach(item => {
+
+        batch.delete(item.ref);
+
+      });
+
+      await batch.commit();
+
+    }
+
+    currentRound++;
+
+    await setDoc(
+
+      doc(db, "settings", "voting"),
+
+      {
+
+        round: currentRound
+
+      }
+
+    );
+
+    await loadResults();
+
+    alert(
+
+      "Голосование сброшено. Начался новый тур."
+
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+
+      "Не удалось сбросить голосование"
+
+    );
+
+  }
+
+};
+
+// ВЫХОД
+
+window.logoutAdmin = async function() {
+
+  await signOut(auth);
+
+};
+
+</script>
+
+</body>
+
+</html>
